@@ -56,7 +56,10 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-	res.send('Home route');
+	if (req.isAuthenticated()) {
+		return res.redirect('/dashboard');
+	}
+	res.redirect('/login');
 });
 
 app.get('/dashboard', (req, res) => {

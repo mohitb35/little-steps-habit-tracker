@@ -13,6 +13,7 @@ const userSchema = new Schema({
 		unique: true, //not for validation purposes, only sets up an index
 		validate: {
 			validator: function(email) {
+				// Source - https://regex101.com/r/857lzc/1
 				let emailRegex = /^([a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$/;
 
    				return emailRegex.test(email);
