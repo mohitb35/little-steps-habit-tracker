@@ -1,64 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-			rel="stylesheet"
-		/>
-		<link rel="stylesheet" href="css/styles.css" />
-		<title>Create a new Little Steps account</title>
-	</head>
-	<body class="preload">
-		<div class="container">
-			<h1 class="title">Register</h1>
-			<main class="main-contents">
-				<div class="form-container">
-					<form id="register-form" action="/register" method="POST" novalidate>
-						<div class="form-contents">
-							<p class="form-instructions">
-								Create an account by filling up the details below and begin your
-								journey to better habits
-							</p>
-							<div class="form-feedback"></div>
-							<div class="form-field">
-								<label for="name">Name</label>
-								<input type="text" id="name" name="user[name]" autofocus />
-								<div class="feedback"></div>
-							</div>
-							<div class="form-field">
-								<label for="email">Email</label>
-								<input type="text" id="email" name="user[email]" />
-								<div class="feedback"></div>
-							</div>
-							<div class="form-field">
-								<label for="password">Password</label>
-								<input type="password" id="password" name="user[password]" />
-								<div class="feedback"></div>
-							</div>
-							<div class="form-field">
-								<label for="confirm-password">Confirm Your Password</label>
-								<input
-									type="password"
-									id="confirm-password"
-									name="confirm-password"
-								/>
-								<div class="feedback"></div>
-							</div>
+<%- include('../partials/head', {title: "Create a new Little Steps account"}); %>
+<body class="preload">
+	<div class="container">
+		<h1 class="title">Register</h1>
+		<main class="main-contents">
+			<div class="form-container">
+				<form id="register-form" action="/register" method="POST" novalidate>
+					<div class="form-contents">
+						<p class="form-instructions">
+							Create an account by filling up the details below and begin your
+							journey to better habits
+						</p>
+						<div class="form-feedback"></div>
+						<div class="form-field">
+							<label for="name">Name</label>
+							<input type="text" id="name" name="user[name]" autofocus />
+							<div class="feedback"></div>
 						</div>
-						<button type="submit">Create Account</button>
-					</form>
-				</div>
+						<div class="form-field">
+							<label for="email">Email</label>
+							<input type="text" id="email" name="user[email]" />
+							<div class="feedback"></div>
+						</div>
+						<div class="form-field">
+							<label for="password">Password</label>
+							<input type="password" id="password" name="user[password]" />
+							<div class="feedback"></div>
+						</div>
+						<div class="form-field">
+							<label for="confirm-password">Confirm Your Password</label>
+							<input
+								type="password"
+								id="confirm-password"
+								name="confirm-password"
+							/>
+							<div class="feedback"></div>
+						</div>
+					</div>
+					<button type="submit">Create Account</button>
+				</form>
+			</div>
 
-				<div class="alternate-action">
-					<p>Already have an account?</p>
-					<a class="alternate-action-link" href="/login">Login</a>
-				</div>
-			</main>
-		</div>
-		<script src="/js/scripts.js"></script>
-		<script src="/js/validateForm.js"></script>
-	</body>
-</html>
+			<div class="alternate-action">
+				<p>Already have an account?</p>
+				<a class="alternate-action-link" href="/login">Login</a>
+			</div>
+		</main>
+	</div>
+	<%- include('../partials/footer'); %>
+

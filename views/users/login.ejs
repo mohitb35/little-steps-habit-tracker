@@ -1,53 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-			rel="stylesheet"
-		/>
-		<link rel="stylesheet" href="css/styles.css" />
-		<title>Sign in to your Little Steps account</title>
-	</head>
-	<body class="front-page preload">
-		<div class="container">
-			<h1 class="title">Little Steps</h1>
-			<main class="main-contents">
-				<div class="form-container">
-					<form id="login-form" action="/login" method="POST" novalidate>
-						<div class="form-contents">
-							<p class="form-instructions">
-								Login with your email and password
-							</p>
-							<div class="form-feedback"></div>
-							<div class="form-field">
-								<label for="email">Email</label>
-								<input type="email" id="email" name="email" autofocus />
-								<div class="feedback"></div>
-							</div>
-							<div class="form-field">
-								<label for="password">Password</label>
-								<input type="password" id="password" name="password" />
-								<div class="feedback"></div>
-							</div>
+<%- include('../partials/head', {title: "Log in to your Little Steps account"}); %>
+<body class="front-page preload">
+	<div class="container">
+		<h1 class="title">Little Steps</h1>
+		<main class="main-contents">
+			<div class="form-container">
+				<form id="login-form" action="/login" method="POST" novalidate>
+					<div class="form-contents">
+						<p class="form-instructions">Login with your email and password</p>
+						<div class="form-feedback"></div>
+						<div class="form-field">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email" autofocus />
+							<div class="feedback"></div>
 						</div>
-						<button type="submit">Login</button>
-					</form>
-				</div>
+						<div class="form-field">
+							<label for="password">Password</label>
+							<input type="password" id="password" name="password" />
+							<div class="feedback"></div>
+						</div>
+					</div>
+					<button type="submit">Login</button>
+				</form>
+			</div>
 
-				<div class="alternate-action">
-					<p>Are you a new user?</p>
-					<a class="alternate-action-link" href="/register"
-						>Create an account</a
-					>
-				</div>
-			</main>
-		</div>
-		<script src="/js/scripts.js"></script>
-		<script src="/js/validateForm.js"></script>
-	</body>
-</html>
+			<div class="alternate-action">
+				<p>Are you a new user?</p>
+				<a class="alternate-action-link" href="/register">Create an account</a>
+			</div>
+		</main>
+	</div>
+	<%- include('../partials/footer'); %>
