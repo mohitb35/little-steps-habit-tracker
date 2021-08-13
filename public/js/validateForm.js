@@ -1,12 +1,17 @@
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
+const changePasswordForm = document.getElementById('change-password-form');
 
 if (loginForm) {
-	loginForm.addEventListener('submit', validateLoginForm);
+	loginForm.addEventListener('submit', validateLogin);
 }
 
 if (registerForm) {
-	registerForm.addEventListener('submit', validateRegisterForm);
+	registerForm.addEventListener('submit', validateRegister);
+}
+
+if (changePasswordForm) {
+	changePasswordForm.addEventListener('submit', validateChangePassword);
 }
 
 /**
@@ -14,7 +19,7 @@ if (registerForm) {
  * @param {Event} event - form submit event
  * @listens SubmitEvent
  */
-function validateLoginForm(event) {
+function validateLogin(event) {
 	try {
 		handleGeneralFormError(this.querySelector('.form-feedback'));
 		const { email, password } = this.elements;
@@ -25,7 +30,7 @@ function validateLoginForm(event) {
 		handleError(email, emailFeedback, emailError);
 		
 		// Check that password is entered
-		const passwordError = isPasswordInvalid(password.value, true);
+		const passwordError = isPasswordInvalid(password.value, { checkFormat: false });
 		const passwordFeedback = password.parentNode.querySelector('.feedback');
 		handleError(password, passwordFeedback, passwordError);
 
@@ -44,7 +49,7 @@ function validateLoginForm(event) {
  * @param {Event} event - form submit event
  * @listens SubmitEvent
  */
-function validateRegisterForm(event) {
+function validateRegister(event) {
 	try {
 		handleGeneralFormError(this.querySelector('.form-feedback'));
 		const { name, email, password } = this.elements;
@@ -61,7 +66,7 @@ function validateRegisterForm(event) {
 		handleError(email, emailFeedback, emailError);
 		
 		// Validate password format
-		const passwordError = isPasswordInvalid(password.value, false);
+		const passwordError = isPasswordInvalid(password.value);
 		const passwordFeedback = password.parentNode.querySelector('.feedback');
 		handleError(password, passwordFeedback, passwordError);
 
@@ -78,6 +83,46 @@ function validateRegisterForm(event) {
 		event.preventDefault();
 	}
 	
+}
+
+/**
+ * Validates the change password form
+ * @param {Event} event - form submit event
+ * @listens SubmitEvent
+ */
+ function validateChangePassword(event) {
+	try {
+		handleGeneralFormError(this.querySelector('.form-feedback'));
+
+		const currentPassword = this.elements['current-password'];
+		const newPassword = this.elements.password;
+		const confirmPassword = this.elements['confirm-password'];
+
+		// Validate currentPassword
+		const currentPasswordError = isPasswordInvalid(
+			currentPassword.value, 
+			{ checkFormat: false, fieldName: "current password" }
+		);
+		const currentPasswordFeedback = currentPassword.parentNode.querySelector('.feedback');
+		handleError(currentPassword, currentPasswordFeedback, currentPasswordError);
+		
+		// Validate newPassword
+		const newPasswordError = isPasswordInvalid(newPassword.value, { fieldName: "new password" });
+		const newPasswordFeedback = newPassword.parentNode.querySelector('.feedback');
+		handleError(newPassword, newPasswordFeedback, newPasswordError);
+
+		// Validate confirmPassword
+		const confirmPasswordError = isPasswordConfirmed(newPassword.value, confirmPassword.value);
+		const confirmPasswordFeedback = confirmPassword.parentNode.querySelector('.feedback');
+		handleError(confirmPassword, confirmPasswordFeedback, confirmPasswordError);
+
+		if (currentPasswordError || newPasswordError || confirmPasswordError) {
+			event.preventDefault();
+		}
+	} catch (error)	{
+		handleGeneralFormError(this.querySelector('.form-feedback'), true);
+		event.preventDefault();
+	}
 }
 
 /**  
@@ -101,16 +146,17 @@ function isEmailInvalid (emailText) {
 /** 
 	* Checks if password provided is invalid (empty or not conforming to rules)
 	* Returns: false (if valid), error message (if invalid)
-	* Note: In case of login, rules are not validated. Only presence of password is checked.
 	* @param {string} passwordText String value of password
-	* @param {boolean} [isLogin = false] Boolean indicating if validation is being done for Login
+	* @param {Object} [options] - password validation options
+	* @param {boolean} [options.checkFormat = true] Boolean indicating if password format should be checked. Default = true.
+	* @param {string} [options.fieldName = "password"] String value of field name. Default = "password".
 */
-function isPasswordInvalid (passwordText, isLogin = false) {
+function isPasswordInvalid (passwordText, { checkFormat = true, fieldName = "password" }) {
 	if (passwordText === "") {
-		return "Please enter your password.";
+		return `Please enter your ${fieldName}.`;
 	}
 
-	if (!isLogin) {
+	if (checkFormat) {
 		// Check passsword format rules
 		if (passwordText.length < 8){
 			return "Password should be at least 8 characters.";
@@ -123,6 +169,8 @@ function isPasswordInvalid (passwordText, isLogin = false) {
 
 	return false;
 }
+
+// FUNCTIONS TO VALIDATE SINGLE FIELD
 
 /**  
  * Checks if name is invalid. Returns: false (if valid), error message (if invalid)
@@ -172,7 +220,7 @@ function handleError (inputElement, feedbackElement, error) {
 }
 
 /**
- * Handles display of the feedback element for an input
+ * Handles display of the general feedback element for the form
  * @param {HTMLElement} feedbackElement 
  * @param {boolean} [isError = false] 
  */

@@ -84,8 +84,12 @@ body {
 	color: rgb(247, 100, 37);
 }
 
+.front-page .main-contents {
+	margin-top: auto;
+}
+
 .main-contents {
-	margin: auto 10px 20px;
+	margin: 20px 10px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

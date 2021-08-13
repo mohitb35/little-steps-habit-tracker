@@ -7,12 +7,12 @@
 		<title>Dashboard</title>
 	</head>
 	<body>
-		<% if(!currentUser) { %>
+		<% if (!currentUser) { %>
 		<a href="/register">Register</a>
 		<a href="/login">Login</a>
 		<% } else { %> <%= currentUser %>
 		<a href="/logout">Logout</a>
-		<!-- <a href="/change-password">Change Password</a> -->
+		<a href="/change-password">Change Password</a>
 		<% } %>
 	</body>
 </html>

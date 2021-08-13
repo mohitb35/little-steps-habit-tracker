@@ -33,7 +33,7 @@ router.route('/login')
 			// failureFlash: true,
 			failureRedirect: '/login'
 		}), 
-		async (req, res) => {
+		(req, res) => {
 			res.redirect('/dashboard');
 		}
 	);
@@ -43,4 +43,46 @@ router.get('/logout', (req, res) => {
 	res.redirect('/dashboard');
 })
 
+router.route('/change-password')
+	.get((req, res) => {
+		res.render('users/changePassword');
+	})
+	.put( async (req, res) => {
+		try {
+			let currentPassword = req.body['current-password'];
+			let newPassword = req.body['password'];
+
+			if (!req.user) {
+				let err = new Error('User not logged in');
+				err.name = 'InvalidSessionError';
+				throw err;
+			};
+
+			let user = await User.findById(req.user.id);
+			if (user) {
+				await user.changePassword(currentPassword, newPassword);
+				return res.redirect('/dashboard');
+			} else {
+				let err = new Error('User not found');
+				err.name = 'UserNotFoundError';
+				throw err;
+			}
+		} catch (err) {
+			switch (err.name) {
+				case 'IncorrectPasswordError':
+					console.log("The current password entered is incorrect");
+					break;
+				case 'UserNotFoundError':
+					console.log("User not found");
+					break;
+				case 'InvalidSessionError':
+					console.log("Your session is invalid. Please log in again");
+					break;
+				default:
+					console.log("Something went wrong");
+					break;
+			}
+			return res.redirect('/dashboard');
+		}
+	})
 module.exports = router;

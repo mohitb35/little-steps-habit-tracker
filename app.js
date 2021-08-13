@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -50,6 +51,8 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(methodOverride('_method'));
+
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
 	next();
@@ -63,7 +66,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-	console.log(req);
 	res.render('dashboard');
 });
 
