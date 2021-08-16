@@ -1,4 +1,5 @@
-<%- include('../partials/head', {title: "Log in to your Little Steps account"}); %>
+<%- include('../partials/head', {title: "Log in to your Little Steps account"})
+%>
 <body class="front-page preload">
 	<div class="container">
 		<h1 class="title">Little Steps</h1>
@@ -7,6 +8,7 @@
 				<form id="login-form" action="/login" method="POST" novalidate>
 					<div class="form-contents">
 						<p class="form-instructions">Login with your email and password</p>
+						<%- include('../partials/flash') %>
 						<div class="form-feedback"></div>
 						<div class="form-field">
 							<label for="email">Email</label>

@@ -12,13 +12,18 @@ router.route('/register')
 		res.render('users/register');
 	})
 	.post( async (req, res) => {
-		let { name, email, password } = req.body.user;
-		const user = new User({ name, email });
-		const savedUser = await User.register(user, password);
-		req.login(savedUser, function(err) {
-			if (err) { return next(err); }
-			return res.redirect('/dashboard');
-		  });
+		try {
+			let { name, email, password } = req.body.user;
+			const user = new User({ name, email });
+			const savedUser = await User.register(user, password);
+			req.login(savedUser, function(err) {
+				if (err) throw err;
+				return res.redirect('/dashboard');
+			});
+		} catch (err) {
+			req.flash('error', err.message);
+			res.redirect('/register');
+		}
 	});
 
 router.route('/login')
@@ -30,7 +35,7 @@ router.route('/login')
 	})
 	.post( 
 		passport.authenticate('local', {
-			// failureFlash: true,
+			failureFlash: true,
 			failureRedirect: '/login'
 		}), 
 		(req, res) => {
@@ -45,6 +50,9 @@ router.get('/logout', (req, res) => {
 
 router.route('/change-password')
 	.get((req, res) => {
+		if (!req.isAuthenticated()) {
+			return res.redirect('/login');
+		}
 		res.render('users/changePassword');
 	})
 	.put( async (req, res) => {
@@ -70,19 +78,19 @@ router.route('/change-password')
 		} catch (err) {
 			switch (err.name) {
 				case 'IncorrectPasswordError':
-					console.log("The current password entered is incorrect");
+					req.flash('error', 'The current password entered is incorrect');
 					break;
 				case 'UserNotFoundError':
-					console.log("User not found");
+					req.flash('error', 'User not found');
 					break;
 				case 'InvalidSessionError':
-					console.log("Your session is invalid. Please log in again");
+					req.flash('error', 'Your session is invalid. Please log in again');
 					break;
 				default:
-					console.log("Something went wrong");
+					req.flash('error', 'Something went wrong');
 					break;
 			}
-			return res.redirect('/dashboard');
+			return res.redirect('/change-password');
 		}
 	})
 module.exports = router;

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -43,6 +44,7 @@ const sessionConfig = {
 }
 
 app.use(session(sessionConfig));
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -54,7 +56,10 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
+	console.log(new Date().toLocaleString());
+	res.locals.error = req.flash('error');
 	res.locals.currentUser = req.user;
+	console.log(res.locals);
 	next();
 })
 
