@@ -151,12 +151,12 @@ function isEmailInvalid (emailText) {
 	* @param {boolean} [options.checkFormat = true] Boolean indicating if password format should be checked. Default = true.
 	* @param {string} [options.fieldName = "password"] String value of field name. Default = "password".
 */
-function isPasswordInvalid (passwordText, { checkFormat = true, fieldName = "password" }) {
+function isPasswordInvalid (passwordText, options = {checkFormat: true, fieldName: "password" }) {
 	if (passwordText === "") {
-		return `Please enter your ${fieldName}.`;
+		return `Please enter your ${options.fieldName}.`;
 	}
 
-	if (checkFormat) {
+	if (options.checkFormat) {
 		// Check passsword format rules
 		if (passwordText.length < 8){
 			return "Password should be at least 8 characters.";
