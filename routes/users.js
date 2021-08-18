@@ -4,11 +4,10 @@ const passport = require('passport');
 
 const User = require('../models/user');
 
+const { isLoggedIn, isNotLoggedIn } = require('../middleware');
+
 router.route('/register')
-	.get((req, res) => {
-		if (req.isAuthenticated()) {
-			return res.redirect('/dashboard');
-		}
+	.get( isNotLoggedIn, (req, res) => {
 		res.render('users/register');
 	})
 	.post( async (req, res) => {
@@ -27,10 +26,7 @@ router.route('/register')
 	});
 
 router.route('/login')
-	.get((req, res) => {
-		if (req.isAuthenticated()) {
-			return res.redirect('/dashboard');
-		}
+	.get( isNotLoggedIn, (req, res) => {
 		res.render('users/login');
 	})
 	.post( 
@@ -49,13 +45,10 @@ router.get('/logout', (req, res) => {
 })
 
 router.route('/change-password')
-	.get((req, res) => {
-		if (!req.isAuthenticated()) {
-			return res.redirect('/login');
-		}
+	.get( isLoggedIn, (req, res) => {
 		res.render('users/changePassword');
 	})
-	.put( async (req, res) => {
+	.put( isLoggedIn, async (req, res) => {
 		try {
 			let currentPassword = req.body['current-password'];
 			let newPassword = req.body['password'];
