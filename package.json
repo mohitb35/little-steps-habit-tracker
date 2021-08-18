@@ -1,0 +1,29 @@
+{
+  "name": "little-steps-habit-tracker",
+  "version": "1.0.0",
+  "description": "Habit tracking web app built using MongoDB, Express, EJS and Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohitb35/little-steps-habit-tracker.git"
+  },
+  "author": "Mohit Bajaj",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/mohitb35/little-steps-habit-tracker/issues"
+  },
+  "homepage": "https://github.com/mohitb35/little-steps-habit-tracker#readme",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.13.5",
+    "passport": "^0.4.1",
+    "passport-local-mongoose": "^6.1.0"
+  }
+}
