@@ -4,6 +4,7 @@
 	<div class="container">
 		<h1 class="title">Register</h1>
 		<main class="main-contents">
+			<%- include('../partials/flash') %>
 			<div class="form-container">
 				<form id="register-form" action="/register" method="POST" novalidate>
 					<div class="form-contents">
@@ -11,7 +12,6 @@
 							Create an account by filling up the details below and begin your
 							journey to better habits
 						</p>
-						<%- include('../partials/flash') %>
 						<div class="form-feedback"></div>
 						<div class="form-field">
 							<label for="name">Name</label>
@@ -49,5 +49,4 @@
 		</main>
 	</div>
 	<%- include('../partials/footer'); %>
-
-	
+</body>

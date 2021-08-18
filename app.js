@@ -58,6 +58,7 @@ app.use(methodOverride('_method'));
 app.use((req, res, next) => {
 	console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
+	res.locals.success = req.flash('success');
 	res.locals.currentUser = req.user;
 	console.log(res.locals);
 	next();

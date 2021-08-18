@@ -162,7 +162,7 @@ form button:active {
 
 .feedback,
 .form-feedback {
-	margin-top: 2px;
+	margin-top: 5px;
 	font-size: 0.9rem;
 	text-align: right;
 	display: none;
@@ -184,4 +184,47 @@ input.valid-input {
 
 input.invalid-input {
 	border: 1px solid red;
+}
+
+.flash {
+	color: white;
+	background-color: rgba(41, 41, 41, 0.568);
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	max-width: 400px;
+	border-radius: 20px;
+	font-size: 1rem;
+}
+
+.flash.error {
+	background-color: rgba(180, 20, 20, 0.8);
+}
+
+.flash.success {
+	background-color: rgba(10, 120, 10, 0.9);
+}
+
+.flash .message {
+	padding: 10px 20px;
+}
+
+.flash .close-btn {
+	background: transparent;
+	color: rgb(210, 210, 210);
+	border: none;
+	font-size: 0.9rem;
+	cursor: pointer;
+	padding: 10px 20px 10px 10px;
+	transition: color 1s ease-in-out transform 1s ease-in-out;
+}
+
+.flash .close-btn:hover,
+.flash .close-btn:active {
+	transform: scale(1.1);
+	color: rgb(230, 230, 230);
+}
+
+.hidden {
+	display: none;
 }
