@@ -9,6 +9,7 @@ const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
 
 const userRoutes = require('./routes/users');
+const habitRoutes = require('./routes/habits');
 
 const User = require('./models/user');
 
@@ -76,6 +77,7 @@ app.get('/dashboard', (req, res) => {
 });
 
 app.use('/', userRoutes);
+app.use('/habits', habitRoutes);
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => {
