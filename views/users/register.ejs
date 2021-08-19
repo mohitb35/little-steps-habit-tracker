@@ -13,27 +13,28 @@
 							journey to better habits
 						</p>
 						<div class="form-feedback"></div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="name">Name</label>
-							<input type="text" id="name" name="user[name]" autofocus />
+							<input type="text" id="name" name="user[name]" autofocus required/>
 							<div class="feedback"></div>
 						</div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="email">Email</label>
-							<input type="text" id="email" name="user[email]" />
+							<input type="text" id="email" name="user[email]" required/>
 							<div class="feedback"></div>
 						</div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="password">Password</label>
-							<input type="password" id="password" name="user[password]" />
+							<input type="password" id="password" name="user[password]" required/>
 							<div class="feedback"></div>
 						</div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="confirm-password">Confirm Your Password</label>
 							<input
 								type="password"
 								id="confirm-password"
 								name="confirm-password"
+								required
 							/>
 							<div class="feedback"></div>
 						</div>
@@ -49,4 +50,3 @@
 		</main>
 	</div>
 	<%- include('../partials/footer'); %>
-</body>

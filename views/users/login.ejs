@@ -10,14 +10,14 @@
 					<div class="form-contents">
 						<p class="form-instructions">Login with your email and password</p>
 						<div class="form-feedback"></div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="email">Email</label>
-							<input type="email" id="email" name="email" autofocus />
+							<input type="email" id="email" name="email" autofocus required/>
 							<div class="feedback"></div>
 						</div>
-						<div class="form-field">
+						<div class="form-field required">
 							<label for="password">Password</label>
-							<input type="password" id="password" name="password" />
+							<input type="password" id="password" name="password" required/>
 							<div class="feedback"></div>
 						</div>
 					</div>
@@ -32,4 +32,3 @@
 		</main>
 	</div>
 	<%- include('../partials/footer'); %>
-</body>
