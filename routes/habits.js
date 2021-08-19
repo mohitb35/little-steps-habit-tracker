@@ -9,8 +9,8 @@ router.route('/')
 		res.send('Creating a habit');
 	});
 
-router.get('/new', (req, res) => {
-	res.send("New habit form comes here");
+router.get('/new', isLoggedIn, (req, res) => {
+	res.render('habits/new');
 })
 
 router.route('/:habitId')

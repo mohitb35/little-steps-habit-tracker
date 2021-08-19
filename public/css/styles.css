@@ -117,19 +117,41 @@ body {
 	margin-top: 15px;
 }
 
-.form-field input {
-	margin: 5px 0;
-	background: rgb(255, 255, 255);
-	border: 1px solid rgba(127, 127, 127, 0.7);
+.form-field.required label:after {
+	content: ' *';
+	color: red;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
 	padding: 10px;
+	margin: 5px 0;
+	background-color: rgb(255, 255, 255);
+	border: 1px solid rgba(127, 127, 127, 0.7);
+}
+
+.form-field select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: url('/media/selector-down-arrow.svg');
+	background-position: center right 10px;
+	background-repeat: no-repeat;
 }
 
 .form-field input:focus,
 .form-field input:focus-visible,
-.form-field input:active {
+.form-field input:active,
+.form-field textarea:focus,
+.form-field textarea:focus-visible,
+.form-field textarea:active,
+.form-field select:focus,
+.form-field select:focus-visible,
+.form-field select:active {
 	border: 2px solid rgb(247, 100, 37);
 	outline: none;
-	background: rgb(250, 238, 184);
+	background-color: rgb(250, 238, 184);
 }
 
 .form-instructions {
