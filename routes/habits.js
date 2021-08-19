@@ -1,12 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
+const Habit = require('../models/habit');
+
+const { isLoggedIn } = require('../middleware');
+
 router.route('/')
 	.get( (req, res) => {
 		res.redirect('dashboard');
 	})
-	.post( (req, res) => {
-		res.send('Creating a habit');
+	.post( isLoggedIn, async (req, res) => {
+		try {
+			const habit = new Habit(req.body.habit);
+			habit.creator = req.user.id;
+			await habit.save();
+			req.flash('success', 'New habit created');
+			res.redirect(`/habits/${habit.id}`); 
+		} catch (err) {
+			req.flash('error', err.message);
+			res.redirect('/habits/new');
+		}
 	});
 
 router.get('/new', isLoggedIn, (req, res) => {
