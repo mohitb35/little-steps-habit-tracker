@@ -11,6 +11,10 @@
 	-o-transition: none !important;
 }
 
+a {
+	cursor: pointer;
+}
+
 body {
 	background: linear-gradient(180deg, #4fd2ef 0%, rgba(79, 210, 239, 0.2) 100%);
 }
@@ -54,7 +58,7 @@ body {
 
 .alternate-action {
 	margin-top: 80px;
-	width: 90%;
+	width: 100%;
 	max-width: 400px;
 	text-align: center;
 	margin-bottom: 80px;
@@ -102,7 +106,7 @@ body {
 .form-container {
 	background: rgb(240, 240, 240);
 	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
-	width: 90%;
+	width: 100%;
 	max-width: 400px;
 	border-radius: 10px 10px 0 0;
 }
@@ -159,7 +163,7 @@ body {
 	font-size: 1rem;
 }
 
-form button {
+.large-button {
 	width: 100%;
 	background: linear-gradient(
 		180deg,
@@ -176,8 +180,8 @@ form button {
 	transition: opacity 0.3s ease-in-out, font-size 0.3s ease-in-out;
 }
 
-form button:hover,
-form button:active {
+.large-button:hover,
+.large-button:active {
 	opacity: 80%;
 	font-size: 1.2rem;
 }
@@ -249,4 +253,108 @@ input.invalid-input {
 
 .hidden {
 	display: none;
+}
+
+/* Dashboard styles */
+.banner {
+	display: flex;
+	padding: 20px 20px 0;
+	min-height: 160px;
+	gap: 20px;
+}
+
+.banner-quote blockquote {
+	font-weight: 500;
+}
+
+.banner-quote cite {
+	font-size: 0.875rem;
+	font-style: italic;
+	display: block;
+	width: 100%;
+	text-align: right;
+	margin-top: 5px;
+}
+
+.banner-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.banner-actions img {
+	display: block;
+}
+
+.banner-actions .action-primary {
+	margin-top: auto;
+}
+
+.habit-card {
+	background: rgb(240, 240, 240);
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+	width: 100%;
+	border-radius: 10px 10px 0 0;
+	margin-bottom: 10px;
+}
+
+.card-contents {
+	padding: 10px;
+}
+
+.card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.habit-title {
+	font-size: 1.25rem;
+	font-weight: 400;
+}
+
+.card-header .habit-highlight {
+	margin: 0;
+}
+
+.habit-highlight {
+	font-weight: 300;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+@media screen and (min-width: 769px) {
+	.container.dashboard {
+		display: flex;
+		flex-direction: row;
+		max-width: 1160px;
+		margin: 0 auto;
+	}
+
+	.banner {
+		flex-direction: column;
+		width: 280px;
+		justify-content: space-between;
+		/* Consider changing this and giving sizes to the elements */
+		padding: 20px 20px 30px;
+		border-bottom: 5px solid rgb(247, 100, 37);
+	}
+
+	.banner-actions {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.banner-actions .action-primary {
+		margin-top: 0;
+		margin-left: auto;
+	}
+
+	.container.dashboard .main-contents {
+		flex: 1 0 auto;
+		margin: 20px;
+	}
 }
