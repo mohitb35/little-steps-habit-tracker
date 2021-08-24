@@ -43,4 +43,10 @@ const habitSchema = new Schema (
 	habitOptions
 );
 
+habitSchema.virtual('prettyStartDate').get(function() {
+	let date = this.createdAt;
+	let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	return `${ months[date.getMonth()] } ${ date.getDate() }, ${ date.getFullYear() }`;
+});
+
 module.exports = mongoose.model('Habit', habitSchema);

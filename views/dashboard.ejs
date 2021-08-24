@@ -44,24 +44,50 @@
 			</div>
 		</section>
 		<main class="main-contents">
+			<% for (let habit of habits) { %>
 			<article class="habit-card">
-				<div class="card-contents">
-					<header class="card-header">
-						<h2 class="habit-title">Walk Daily</h2>
+				<a href="/habits/<%= habit.id %>">
+					<div class="card-contents">
+						<header class="card-header">
+							<h2 class="habit-title"><%= habit.title %></h2>
+							<div class="habit-highlight">
+								<img src="/media/icon-status-yellow.svg" />
+								<span class="highlight-text">Can improve</span>
+							</div>
+						</header>
 						<div class="habit-highlight">
-							<img src="/media/icon-status-yellow.svg" />
-							<span class="highlight-text">Can improve</span>
+							<img src="/media/icon-flame.svg" />
+							<span>3 days</span>
 						</div>
-					</header>
-					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>3 days</span>
+						<div class="habit-highlight">
+							<img src="/media/icon-calendar.svg" />
+							<span>Just completed yesterday</span>
+						</div>
 					</div>
-					<div class="habit-highlight">
-						<img src="/media/icon-calendar.svg" />
-						<span>Just completed yesterday</span>
+				</a>
+				<button class="large-button">Track</button>
+			</article>
+			<% } %>
+			<!-- <article class="habit-card">
+				<a href="/habits/randomId">
+					<div class="card-contents">
+						<header class="card-header">
+							<h2 class="habit-title">Walk Daily</h2>
+							<div class="habit-highlight">
+								<img src="/media/icon-status-yellow.svg" />
+								<span class="highlight-text">Can improve</span>
+							</div>
+						</header>
+						<div class="habit-highlight">
+							<img src="/media/icon-flame.svg" />
+							<span>3 days</span>
+						</div>
+						<div class="habit-highlight">
+							<img src="/media/icon-calendar.svg" />
+							<span>Just completed yesterday</span>
+						</div>
 					</div>
-				</div>
+				</a>
 				<button class="large-button">Track</button>
 			</article>
 			<article class="habit-card">
@@ -103,7 +129,7 @@
 					</div>
 				</div>
 				<button class="large-button">Track</button>
-			</article>
+			</article> -->
 		</main>
 	</div>
 	<% } %> <%- include('partials/footer'); %>

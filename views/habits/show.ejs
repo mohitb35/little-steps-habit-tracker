@@ -6,19 +6,17 @@
 			<%- include('../partials/flash') %>
 			<article class="habit-card">
 				<div class="card-contents">
-					<div class="habit-created-date">Created on Sep 14, 2020</div>
-					<h2 class="habit-title">Walk Daily</h2>
+					<div class="habit-created-date">
+						Created on <%= habit.prettyStartDate %>
+					</div>
+					<h2 class="habit-title"><%= habit.title %></h2>
 					<div class="habit-info" id="habit-frequency">
-						<span class="habit-label">Desired frequency:</span> Daily
+						<span class="habit-label">Desired frequency: </span>
+						<%= habit.frequency %>
 					</div>
 					<div class="habit-info" id="habit-purpose">
-						<span class="habit-label">Purpose:</span> Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Ea illo quis reprehenderit aperiam
-						eveniet perferendis numquam, repellendus nisi temporibus fugiat
-						magni sed. Porro ea saepe pariatur inventore adipisci nobis nisi,
-						itaque laudantium ab quisquam, debitis ad voluptates! Commodi,
-						ratione magni ducimus cum culpa veritatis et fuga blanditiis unde
-						doloribus iste.
+						<span class="habit-label">Purpose:</span>
+						<%= habit.purpose.length ? habit.purpose : "Not available" %>
 					</div>
 					<div class="habit-highlight">
 						<img src="/media/icon-status-green.svg" />

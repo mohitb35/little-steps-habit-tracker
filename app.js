@@ -11,6 +11,7 @@ const passport = require('passport');
 const userRoutes = require('./routes/users');
 const habitRoutes = require('./routes/habits');
 
+const Habit = require('./models/habit');
 const User = require('./models/user');
 
 mongoose.connect(
@@ -57,11 +58,11 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
-	console.log(new Date().toLocaleString());
+	// console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
 	res.locals.success = req.flash('success');
 	res.locals.currentUser = req.user;
-	console.log(res.locals);
+	// console.log(res.locals);
 	next();
 })
 
@@ -72,8 +73,13 @@ app.get('/', (req, res) => {
 	res.redirect('/login');
 });
 
-app.get('/dashboard', (req, res) => {
-	res.render('dashboard');
+app.get('/dashboard', async (req, res) => {
+	if (req.user) {
+		const habits = await Habit.find({ creator: req.user.id });
+		console.log(habits);
+		return res.render('dashboard', { habits });
+	};
+	res.redirect('/login');
 });
 
 app.use('/', userRoutes);

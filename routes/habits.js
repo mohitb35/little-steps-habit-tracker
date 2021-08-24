@@ -27,8 +27,11 @@ router.get('/new', isLoggedIn, (req, res) => {
 })
 
 router.route('/:habitId')
-	.get( (req, res) => {
-		res.send(`Viewing a habit: ${req.params.habitId}`);
+	.get( async (req, res) => {
+		const habitId = req.params.habitId;
+		const habit = await Habit.findById(habitId);
+		res.render('habits/show', { habit });
+		// res.send(`Viewing a habit: ${req.params.habitId}`);
 	})
 	.put(  (req, res) => {
 		res.send(`Updating a habit: ${req.params.habitId}`);
