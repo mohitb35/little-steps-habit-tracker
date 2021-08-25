@@ -1,7 +1,8 @@
 <%- include('../partials/head', {title: "View Habit - Little Steps"}); %>
 <body class="preload">
 	<div class="container container-large">
-		<h1 class="title">View Habit</h1>
+		<!-- <h1 class="title">View Habit</h1> -->
+		<%- include('../partials/titlebar', { page: 'view-habit' }); %>
 		<main class="main-contents">
 			<%- include('../partials/flash') %>
 			<article class="habit-card">
@@ -46,3 +47,4 @@
 		</main>
 	</div>
 	<%- include('../partials/footer'); %>
+</body>

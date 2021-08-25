@@ -1,7 +1,9 @@
 <%- include('../partials/head', {title: "Create a new habit"}); %>
 <body class="preload">
 	<div class="container">
-		<h1 class="title">Create a new habit</h1>
+		<%- include('../partials/titlebar', 
+			{ page: 'add-habit', title: 'Create a new habit'
+		}); %>
 		<main class="main-contents">
 			<%- include('../partials/flash') %>
 			<div class="form-container">
@@ -47,3 +49,4 @@
 		</main>
 	</div>
 	<%- include('../partials/footer'); %>
+</body>

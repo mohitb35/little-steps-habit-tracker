@@ -1,0 +1,30 @@
+<nav class="titlebar">
+	<div class="titlebar-left-container">
+		<a href="#"><img src="/media/back-arrow.svg" alt="Back" title="Back" /></a>
+		<% if (page !== 'view-habit') { %>
+		<h1 class="title"><%= title %></h1>
+		<% } %>
+	</div>
+	<% if (page === 'view-habit') { %>
+	<div class="titlebar-right-container">
+		<a href="#"
+			><img
+				src="/media/round-button-track-habit.svg"
+				alt="Track Habit"
+				title="Track Habit"
+		/></a>
+		<a href="/habits/edit"
+			><img
+				src="/media/round-button-edit-habit.svg"
+				alt="Edit Habit"
+				title="Edit Habit"
+		/></a>
+		<a href="#"
+			><img
+				src="/media/round-button-delete-habit.svg"
+				alt="Delete Habit"
+				title="Delete Habit"
+		/></a>
+	</div>
+	<% } %>
+</nav>

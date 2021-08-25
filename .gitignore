@@ -3,5 +3,8 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# misc.
 public/js/snippets.js
 public/css/styles copy.css
+.DS_Store
