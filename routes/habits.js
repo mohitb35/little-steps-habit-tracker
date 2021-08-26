@@ -5,6 +5,8 @@ const Habit = require('../models/habit');
 
 const { isLoggedIn } = require('../middleware');
 
+const frequencies = ['daily']; 
+
 router.route('/')
 	.get( (req, res) => {
 		res.redirect('dashboard');
@@ -23,25 +25,47 @@ router.route('/')
 	});
 
 router.get('/new', isLoggedIn, (req, res) => {
-	res.render('habits/new');
+	res.render('habits/new', { frequencies });
 })
 
 router.route('/:habitId')
 	.get( async (req, res) => {
-		const habitId = req.params.habitId;
-		const habit = await Habit.findById(habitId);
-		res.render('habits/show', { habit });
-		// res.send(`Viewing a habit: ${req.params.habitId}`);
+		try {
+			const habitId = req.params.habitId;
+			const habit = await Habit.findById(habitId);
+			res.render('habits/show', { habit });
+		} catch (err) {
+			req.flash('error', err.message);
+			res.redirect('/dashboard');
+		}
 	})
-	.put(  (req, res) => {
-		res.send(`Updating a habit: ${req.params.habitId}`);
+	.put( async (req, res) => {
+		try {
+			const habitId = req.params.habitId;
+			const habit = req.body.habit;
+			const updatedHabit = await Habit.findByIdAndUpdate(
+				habitId, habit, { new: true, useFindAndModify: false, runValidators: true }
+			);
+			console.log(updatedHabit)
+			res.redirect(`/habits/${updatedHabit.id}`);
+		} catch (err) {
+			req.flash('error', err.message);
+			res.redirect(`/habits/${habit.id}/edit`);
+		}
 	})
 	.delete( (req, res) => {
 		res.send(`Deleting a habit: ${req.params.habitId}`);
 	});
 
-router.get('/:habitId/edit', (req, res) => {
-	res.send(`Edit habit form comes here: ${req.params.habitId}`);
+router.get('/:habitId/edit', async (req, res) => {
+	try {
+		const habitId = req.params.habitId;
+		const habit = await Habit.findById(habitId);
+		res.render('habits/edit', { habit, frequencies });
+	} catch (err) {
+		req.flash('error', err.message);
+		res.redirect('/habits/habitId');
+	}
 })
 
 router.put('/:habitId/track', (req, res) => {

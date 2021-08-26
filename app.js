@@ -76,7 +76,6 @@ app.get('/', (req, res) => {
 app.get('/dashboard', async (req, res) => {
 	if (req.user) {
 		const habits = await Habit.find({ creator: req.user.id });
-		console.log(habits);
 		return res.render('dashboard', { habits });
 	};
 	res.redirect('/login');

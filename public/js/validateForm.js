@@ -2,6 +2,7 @@ const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const changePasswordForm = document.getElementById('change-password-form');
 const addHabitForm = document.getElementById('add-habit-form');
+const editHabitForm = document.getElementById('edit-habit-form');
 
 if (loginForm) {
 	loginForm.addEventListener('submit', validateLogin);
@@ -16,7 +17,11 @@ if (changePasswordForm) {
 }
 
 if (addHabitForm) {
-	addHabitForm.addEventListener('submit', validateAddHabit);
+	addHabitForm.addEventListener('submit', validateHabit);
+}
+
+if (editHabitForm) {
+	editHabitForm.addEventListener('submit', validateHabit);
 }
 
 /**
@@ -134,7 +139,7 @@ function validateRegister(event) {
  * @param {Event} event - form submit event
  * @listens SubmitEvent
  */
- function validateAddHabit(event) {
+ function validateHabit(event) {
 	try {
 		handleGeneralFormError(this.querySelector('.form-feedback'));
 
