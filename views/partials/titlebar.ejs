@@ -3,30 +3,37 @@
 		<a href="<%= backUrl %>"
 			><img src="/media/back-arrow.svg" alt="Back" title="Back"
 		/></a>
-		<% if (page !== 'view-habit') { %>
+		<% if (title) { %>
 		<h1 class="title"><%= title %></h1>
 		<% } %>
 	</div>
 	<% if (page === 'view-habit') { %>
 	<div class="titlebar-right-container">
-		<a href="#"
+		<a class="round-button" href="#"
 			><img
 				src="/media/round-button-track-habit.svg"
 				alt="Track Habit"
 				title="Track Habit"
 		/></a>
-		<a href="/habits/<%= habit.id %>/edit"
+		<a class="round-button" href="/habits/<%= habit.id %>/edit"
 			><img
 				src="/media/round-button-edit-habit.svg"
 				alt="Edit Habit"
 				title="Edit Habit"
 		/></a>
-		<a href="#"
-			><img
-				src="/media/round-button-delete-habit.svg"
-				alt="Delete Habit"
-				title="Delete Habit"
-		/></a>
+		<form
+			id="delete-habit-form"
+			action="/habits/<%= habit.id %>?_method=DELETE"
+			method="POST"
+		>
+			<button class="round-button" type="submit">
+				<img
+					src="/media/round-button-delete-habit.svg"
+					alt="Delete Habit"
+					title="Delete Habit"
+				/>
+			</button>
+		</form>
 	</div>
 	<% } %>
 </nav>
