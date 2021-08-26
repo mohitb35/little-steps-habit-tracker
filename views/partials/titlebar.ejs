@@ -1,6 +1,8 @@
 <nav class="titlebar">
 	<div class="titlebar-left-container">
-		<a href="#"><img src="/media/back-arrow.svg" alt="Back" title="Back" /></a>
+		<a href="<%= backUrl %>"
+			><img src="/media/back-arrow.svg" alt="Back" title="Back"
+		/></a>
 		<% if (page !== 'view-habit') { %>
 		<h1 class="title"><%= title %></h1>
 		<% } %>
@@ -13,7 +15,7 @@
 				alt="Track Habit"
 				title="Track Habit"
 		/></a>
-		<a href="/habits/edit"
+		<a href="/habits/<%= habit.id %>/edit"
 			><img
 				src="/media/round-button-edit-habit.svg"
 				alt="Edit Habit"

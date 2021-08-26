@@ -2,8 +2,8 @@
 <body class="preload">
 	<div class="container">
 		<%- include('../partials/titlebar', 
-			{ page: 'add-habit', title: 'Create a new habit'
-		}); %>
+			{ page: 'add-habit', title: 'Create a new habit', backUrl: '/dashboard' }
+		); %>
 		<main class="main-contents">
 			<%- include('../partials/flash') %>
 			<div class="form-container">
@@ -50,3 +50,4 @@
 	</div>
 	<%- include('../partials/footer'); %>
 </body>
+</html>
