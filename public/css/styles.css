@@ -390,6 +390,28 @@ input.invalid-input {
 	margin: 20px 20px 0; */
 }
 
+.titlebar-right-container form {
+	width: fit-content;
+	height: 40px;
+}
+
+.titlebar form .round-button {
+	width: fit-content;
+	border: none;
+	padding: 0;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.round-button {
+	transition: transform 0.3s ease-in-out;
+}
+
+.round-button:hover,
+.round-button:active {
+	transform: scale(1.2);
+}
+
 @media screen and (min-width: 600px) {
 	.container {
 		max-width: 1160px;

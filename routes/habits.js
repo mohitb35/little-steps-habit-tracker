@@ -53,8 +53,15 @@ router.route('/:habitId')
 			res.redirect(`/habits/${habit.id}/edit`);
 		}
 	})
-	.delete( (req, res) => {
-		res.send(`Deleting a habit: ${req.params.habitId}`);
+	.delete( async (req, res) => {
+		try { 
+			const habitId = req.params.habitId;
+			const deletedHabit = await Habit.findByIdAndDelete(habitId);
+			res.redirect('/dashboard');
+		} catch (err) {
+			req.flash('error', err.message);
+			res.redirect(`/habits/${habit.id}`);
+		}
 	});
 
 router.get('/:habitId/edit', async (req, res) => {

@@ -1,6 +1,6 @@
 <%- include('partials/head', {title: "Your Dashboard - Little Steps"}); %>
-<body>	
-<div class="container container-large dashboard preload">
+<body class="preload">	
+<div class="container container-large dashboard">
 		<% if (!currentUser) { %>
 		<div>
 			<a href="/register">Register</a>
@@ -16,31 +16,25 @@
 				<cite>Jim Ryun</cite>
 			</div>
 			<div class="banner-actions">
-				<div class="action">
-					<a href="/logout"
-						><img
-							src="/media/round-button-logout.svg"
-							alt="Logout"
-							title="Logout"
-					/></a>
-				</div>
-				<div class="action">
-					<a href="/change-password"
-						><img
-							src="/media/round-button-change-password.svg"
-							alt="Change Password"
-							title="Change Pasword"
-					/></a>
-				</div>
-				<div class="action-primary">
-					<a href="/habits/new">
-						<img
-							src="/media/round-button-add-habit.svg"
-							alt="Add a habit"
-							title="Add a habit"
-						/>
-					</a>
-				</div>
+				<a class="action round-button" href="/logout"
+					><img
+						src="/media/round-button-logout.svg"
+						alt="Logout"
+						title="Logout"
+				/></a>
+				<a class="action round-button" href="/change-password"
+					><img
+						src="/media/round-button-change-password.svg"
+						alt="Change Password"
+						title="Change Pasword"
+				/></a>
+				<a class="action-primary round-button" href="/habits/new">
+					<img
+						src="/media/round-button-add-habit.svg"
+						alt="Add a habit"
+						title="Add a habit"
+					/>
+				</a>
 			</div>
 		</section>
 		<main class="main-contents">
@@ -133,3 +127,5 @@
 		</main>
 	</div>
 	<% } %> <%- include('partials/footer'); %>
+</body>
+</html>
