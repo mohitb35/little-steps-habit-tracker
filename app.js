@@ -11,9 +11,9 @@ const passport = require('passport');
 const userRoutes = require('./routes/users');
 const habitRoutes = require('./routes/habits');
 
-const Habit = require('./models/habit');
 const User = require('./models/user');
 
+const habitsController = require('./controllers/habits');
 const { isLoggedIn } = require('./middleware');
 
 mongoose.connect(
@@ -75,16 +75,7 @@ app.get('/', (req, res) => {
 	res.redirect('/login');
 });
 
-app.get('/dashboard', isLoggedIn, async (req, res) => {
-	try {
-		const habits = await Habit.find({ creator: req.user.id });
-		return res.render('dashboard', { habits });
-	} catch (err) {
-		req.flash('error', err.message);
-		res.redirect ('/dashboard'); 
-		//To be replaced by an error page as this would lead to an infinite loop
-	}
-});
+app.get('/dashboard', isLoggedIn, habitsController.renderDashboard);
 
 app.use('/', userRoutes);
 app.use('/habits', habitRoutes);
