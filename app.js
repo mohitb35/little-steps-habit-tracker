@@ -9,8 +9,12 @@ const passport = require('passport');
 // const LocalStrategy = require('passport-local').Strategy;
 
 const userRoutes = require('./routes/users');
+const habitRoutes = require('./routes/habits');
 
 const User = require('./models/user');
+
+const habitsController = require('./controllers/habits');
+const { isLoggedIn } = require('./middleware');
 
 mongoose.connect(
 	'mongodb://localhost:27017/lsht_app', //specifies URL, port and database name
@@ -56,11 +60,11 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
-	console.log(new Date().toLocaleString());
+	// console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
 	res.locals.success = req.flash('success');
 	res.locals.currentUser = req.user;
-	console.log(res.locals);
+	// console.log(res.locals);
 	next();
 })
 
@@ -71,11 +75,10 @@ app.get('/', (req, res) => {
 	res.redirect('/login');
 });
 
-app.get('/dashboard', (req, res) => {
-	res.render('dashboard');
-});
+app.get('/dashboard', isLoggedIn, habitsController.renderDashboard);
 
 app.use('/', userRoutes);
+app.use('/habits', habitRoutes);
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => {

@@ -1,0 +1,54 @@
+<%- include('../partials/head', {title: "Create a new habit"}); %>
+<body class="preload">
+	<div class="container">
+		<%- include('../partials/titlebar', 
+			{ page: 'add-habit', title: 'Create a new habit', backUrl: '/dashboard' }
+		); %>
+		<main class="main-contents">
+			<%- include('../partials/flash') %>
+			<div class="form-container">
+				<form id="add-habit-form" action="/habits" method="POST" novalidate>
+					<div class="form-contents">
+						<p class="form-instructions">
+							Enter the details below to create a new habit.
+						</p>
+						<div class="form-feedback"></div>
+						<div class="form-field required">
+							<label for="title">Habit Name</label>
+							<input
+								type="text"
+								id="title"
+								name="habit[title]"
+								autofocus
+								required
+							/>
+							<div class="feedback"></div>
+						</div>
+						<div class="form-field required">
+							<label for="frequency">Frequency</label>
+							<select name="habit[frequency]" id="frequency" required>
+								<% for (let frequency of frequencies) { %>
+								<option value="<%= frequency %>"><%= frequency %></option>
+								<% } %>
+							</select>
+							<div class="feedback"></div>
+						</div>
+						<div class="form-field">
+							<label for="purpose">Purpose</label>
+							<textarea
+								name="habit[purpose]"
+								id="purpose"
+								cols="30"
+								rows="10"
+							></textarea>
+							<div class="feedback"></div>
+						</div>
+					</div>
+					<button class="large-button" type="submit">Save</button>
+				</form>
+			</div>
+		</main>
+	</div>
+	<%- include('../partials/footer'); %>
+</body>
+</html>

@@ -1,6 +1,8 @@
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const changePasswordForm = document.getElementById('change-password-form');
+const addHabitForm = document.getElementById('add-habit-form');
+const editHabitForm = document.getElementById('edit-habit-form');
 
 if (loginForm) {
 	loginForm.addEventListener('submit', validateLogin);
@@ -12,6 +14,14 @@ if (registerForm) {
 
 if (changePasswordForm) {
 	changePasswordForm.addEventListener('submit', validateChangePassword);
+}
+
+if (addHabitForm) {
+	addHabitForm.addEventListener('submit', validateHabit);
+}
+
+if (editHabitForm) {
+	editHabitForm.addEventListener('submit', validateHabit);
 }
 
 /**
@@ -124,6 +134,39 @@ function validateRegister(event) {
 	}
 }
 
+/**
+ * Validates the add habit form
+ * @param {Event} event - form submit event
+ * @listens SubmitEvent
+ */
+ function validateHabit(event) {
+	try {
+		handleGeneralFormError(this.querySelector('.form-feedback'));
+
+		const { title, frequency, purpose } = this.elements;
+		console.log(title.value, frequency.value, purpose.value);
+
+		// Validate title
+		const titleError = isFilled(title.value, "Please enter a habit name");
+		const titleFeedback = title.parentNode.querySelector('.feedback');
+		handleError(title, titleFeedback, titleError);
+		
+		// Validate frequency
+		const frequencyError = isFilled(frequency.value, "Please select a desired frequency");
+		const frequencyFeedback = frequency.parentNode.querySelector('.feedback');
+		handleError(frequency, frequencyFeedback, frequencyError);
+
+		if (titleError || frequencyError ) {
+			event.preventDefault();
+		}
+	} catch (error)	{
+		handleGeneralFormError(this.querySelector('.form-feedback'), true);
+		event.preventDefault();
+	}
+}
+
+// FUNCTIONS TO VALIDATE SINGLE FIELD
+
 /**  
  * Checks if email input is invalid. Returns: false (if valid), error message (if invalid)
  * @param {string} emailText String value of email
@@ -172,8 +215,6 @@ function isPasswordInvalid (
 	return false;
 }
 
-// FUNCTIONS TO VALIDATE SINGLE FIELD
-
 /**  
  * Checks if name is invalid. Returns: false (if valid), error message (if invalid)
  * @param {string} nameText String value of name
@@ -194,6 +235,19 @@ function isNameInvalid (nameText) {
 function isPasswordConfirmed (passwordText, confirmPasswordText) {
 	if (passwordText !== confirmPasswordText || confirmPasswordText === "") {
 		return "Please confirm your password correctly."; 
+	}
+
+	return false;
+}
+
+/**  
+ * Checks if mandatory field is provided. Returns: false (if provided), error message (if invalid)
+ * @param {string} fieldValue String value of field
+ * @param {string} [errorMessage = "Please provide a value"] String value of error message
+*/
+function isFilled (fieldValue, errorMessage = "Please provide a value") {
+	if (fieldValue === "" || fieldValue === null) {
+		return errorMessage; 
 	}
 
 	return false;

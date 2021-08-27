@@ -1,18 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Dashboard</title>
-	</head>
-	<body>
+<%- include('partials/head', {title: "Your Dashboard - Little Steps"}); %>
+<body class="preload">	
+<div class="container container-large dashboard">
 		<% if (!currentUser) { %>
-		<a href="/register">Register</a>
-		<a href="/login">Login</a>
-		<% } else { %> <%= currentUser %>
-		<a href="/logout">Logout</a>
-		<a href="/change-password">Change Password</a>
-		<% } %>
-	</body>
+		<div>
+			<a href="/register">Register</a>
+			<a href="/login">Login</a>
+		</div>
+		<% } else { %>
+		<!-- <div><%= //currentUser %></div> -->
+		<section class="banner">
+			<div class="banner-quote">
+				<blockquote>
+					Motivation is what get's you started. Habit is what keeps you going.
+				</blockquote>
+				<cite>Jim Ryun</cite>
+			</div>
+			<div class="banner-actions">
+				<a class="action round-button" href="/logout"
+					><img
+						src="/media/round-button-logout.svg"
+						alt="Logout"
+						title="Logout"
+				/></a>
+				<a class="action round-button" href="/change-password"
+					><img
+						src="/media/round-button-change-password.svg"
+						alt="Change Password"
+						title="Change Pasword"
+				/></a>
+				<a class="action-primary round-button" href="/habits/new">
+					<img
+						src="/media/round-button-add-habit.svg"
+						alt="Add a habit"
+						title="Add a habit"
+					/>
+				</a>
+			</div>
+		</section>
+		<main class="main-contents">
+			<%- include('./partials/flash') %>
+			<% for (let habit of habits) { %>
+			<article class="habit-card">
+				<a href="/habits/<%= habit.id %>">
+					<div class="card-contents">
+						<header class="card-header">
+							<h2 class="habit-title"><%= habit.title %></h2>
+							<div class="habit-highlight">
+								<img src="/media/icon-status-yellow.svg" />
+								<span class="highlight-text">Can improve</span>
+							</div>
+						</header>
+						<div class="habit-highlight">
+							<img src="/media/icon-flame.svg" />
+							<span>3 days</span>
+						</div>
+						<div class="habit-highlight">
+							<img src="/media/icon-calendar.svg" />
+							<span>Just completed yesterday</span>
+						</div>
+					</div>
+				</a>
+				<button class="large-button">Track</button>
+			</article>
+			<% } %>
+			<!-- <article class="habit-card">
+				<a href="/habits/randomId">
+					<div class="card-contents">
+						<header class="card-header">
+							<h2 class="habit-title">Walk Daily</h2>
+							<div class="habit-highlight">
+								<img src="/media/icon-status-yellow.svg" />
+								<span class="highlight-text">Can improve</span>
+							</div>
+						</header>
+						<div class="habit-highlight">
+							<img src="/media/icon-flame.svg" />
+							<span>3 days</span>
+						</div>
+						<div class="habit-highlight">
+							<img src="/media/icon-calendar.svg" />
+							<span>Just completed yesterday</span>
+						</div>
+					</div>
+				</a>
+				<button class="large-button">Track</button>
+			</article>
+			<article class="habit-card">
+				<div class="card-contents">
+					<header class="card-header">
+						<h2 class="habit-title">Walk Daily</h2>
+						<div class="habit-highlight">
+							<img src="/media/icon-status-green.svg" />
+							<span class="highlight-text">On track</span>
+						</div>
+					</header>
+					<div class="habit-highlight">
+						<img src="/media/icon-flame.svg" />
+						<span>7 days</span>
+					</div>
+					<div class="habit-highlight">
+						<img src="/media/icon-calendar.svg" />
+						<span>Just completed yesterday</span>
+					</div>
+				</div>
+				<button class="large-button">Track</button>
+			</article>
+			<article class="habit-card">
+				<div class="card-contents">
+					<header class="card-header">
+						<h2 class="habit-title">Walk Daily</h2>
+						<div class="habit-highlight">
+							<img src="/media/icon-status-red.svg" />
+							<span class="highlight-text">Off the rails</span>
+						</div>
+					</header>
+					<div class="habit-highlight">
+						<img src="/media/icon-flame.svg" />
+						<span>0 days</span>
+					</div>
+					<div class="habit-highlight">
+						<img src="/media/icon-calendar.svg" />
+						<span>One week ago</span>
+					</div>
+				</div>
+				<button class="large-button">Track</button>
+			</article> -->
+		</main>
+	</div>
+	<% } %> <%- include('partials/footer'); %>
+</body>
 </html>
