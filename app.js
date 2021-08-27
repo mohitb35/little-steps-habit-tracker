@@ -14,6 +14,8 @@ const habitRoutes = require('./routes/habits');
 const Habit = require('./models/habit');
 const User = require('./models/user');
 
+const { isLoggedIn } = require('./middleware');
+
 mongoose.connect(
 	'mongodb://localhost:27017/lsht_app', //specifies URL, port and database name
 	{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }
@@ -73,12 +75,15 @@ app.get('/', (req, res) => {
 	res.redirect('/login');
 });
 
-app.get('/dashboard', async (req, res) => {
-	if (req.user) {
+app.get('/dashboard', isLoggedIn, async (req, res) => {
+	try {
 		const habits = await Habit.find({ creator: req.user.id });
 		return res.render('dashboard', { habits });
-	};
-	res.redirect('/login');
+	} catch (err) {
+		req.flash('error', err.message);
+		res.redirect ('/dashboard'); 
+		//To be replaced by an error page as this would lead to an infinite loop
+	}
 });
 
 app.use('/', userRoutes);

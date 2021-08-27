@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Habit = require('../models/habit');
 
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isCreator } = require('../middleware');
 
 const frequencies = ['daily']; 
 
@@ -29,7 +29,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 })
 
 router.route('/:habitId')
-	.get( async (req, res) => {
+	.get( isLoggedIn, isCreator, async (req, res) => {
 		try {
 			const habitId = req.params.habitId;
 			const habit = await Habit.findById(habitId);
@@ -39,7 +39,7 @@ router.route('/:habitId')
 			res.redirect('/dashboard');
 		}
 	})
-	.put( async (req, res) => {
+	.put( isLoggedIn, isCreator, async (req, res) => {
 		try {
 			const habitId = req.params.habitId;
 			const habit = req.body.habit;
@@ -53,7 +53,7 @@ router.route('/:habitId')
 			res.redirect(`/habits/${habit.id}/edit`);
 		}
 	})
-	.delete( async (req, res) => {
+	.delete( isLoggedIn, isCreator, async (req, res) => {
 		try { 
 			const habitId = req.params.habitId;
 			const deletedHabit = await Habit.findByIdAndDelete(habitId);
@@ -64,7 +64,7 @@ router.route('/:habitId')
 		}
 	});
 
-router.get('/:habitId/edit', async (req, res) => {
+router.get('/:habitId/edit', isLoggedIn, isCreator, async (req, res) => {
 	try {
 		const habitId = req.params.habitId;
 		const habit = await Habit.findById(habitId);
@@ -75,6 +75,7 @@ router.get('/:habitId/edit', async (req, res) => {
 	}
 })
 
+// Pending
 router.put('/:habitId/track', (req, res) => {
 	res.send(`Tracking habit: ${req.params.habitId}`);
 })

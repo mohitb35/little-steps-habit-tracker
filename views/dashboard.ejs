@@ -38,6 +38,7 @@
 			</div>
 		</section>
 		<main class="main-contents">
+			<%- include('./partials/flash') %>
 			<% for (let habit of habits) { %>
 			<article class="habit-card">
 				<a href="/habits/<%= habit.id %>">
