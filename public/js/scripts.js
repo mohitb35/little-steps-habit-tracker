@@ -1,5 +1,7 @@
-let body = document.querySelector('body');
-let flashContainers = document.querySelectorAll('.flash');
+const body = document.querySelector('body');
+const flashContainers = document.querySelectorAll('.flash');
+const modalCloseButtons = document.querySelectorAll('.modal-close-button');
+const logoutButton = document.getElementById('logout-button');
 
 window.addEventListener('load', function () {
 	body.classList.remove('preload');
@@ -15,3 +17,22 @@ function closeFlash(event) {
 		this.classList.toggle('hidden');
 	}
 }
+
+for (let modalCloseButton of modalCloseButtons) {
+	modalCloseButton.addEventListener('click', hideModal);
+}
+
+function hideModal(event) {
+	const targetModal = document.getElementById(this.dataset.target);
+	targetModal.classList.add("hidden");
+}
+
+logoutButton.addEventListener('click', showModal);
+
+function showModal(event) {
+	const targetModal = document.getElementById(this.dataset.target);
+	targetModal.classList.remove("hidden");
+}
+
+
+

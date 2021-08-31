@@ -1,13 +1,12 @@
 <%- include('partials/head', {title: "Your Dashboard - Little Steps"}); %>
 <body class="preload">	
-<div class="container container-large dashboard">
+	<div class="container container-large dashboard">
 		<% if (!currentUser) { %>
 		<div>
 			<a href="/register">Register</a>
 			<a href="/login">Login</a>
 		</div>
 		<% } else { %>
-		<!-- <div><%= //currentUser %></div> -->
 		<section class="banner">
 			<div class="banner-quote">
 				<blockquote>
@@ -16,12 +15,12 @@
 				<cite>Jim Ryun</cite>
 			</div>
 			<div class="banner-actions">
-				<a class="action round-button" href="/logout"
+				<button class="action round-button" id="logout-button" data-target="logout-modal"
 					><img
 						src="/media/round-button-logout.svg"
 						alt="Logout"
 						title="Logout"
-				/></a>
+				/></button>
 				<a class="action round-button" href="/change-password"
 					><img
 						src="/media/round-button-change-password.svg"
@@ -126,6 +125,21 @@
 				<button class="large-button">Track</button>
 			</article> -->
 		</main>
+	</div>
+	<div id="logout-modal" class="modal hidden">
+		<div class="modal-wrapper">
+			<button class="modal-close-button" data-target="logout-modal"><img src="/media/cross-icon.svg" alt="Close button"></button>
+			<div class="modal-contents">
+				<h4 class="modal-title">Logout</h4>
+				<p class="modal-text">Are you sure you want to log out?</p>
+				<div class="modal-actions">
+					<form action="/logout" method="POST">
+						<button class="small-button action-desired">Yes</button>
+					</form>
+					<button class="small-button modal-close-button" data-target="logout-modal">No</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<% } %> <%- include('partials/footer'); %>
 </body>
