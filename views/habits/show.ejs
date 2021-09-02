@@ -42,10 +42,11 @@
 						</div>
 					</div>
 				</div>
-				<button class="large-button">Track Habit</button>
+				<button class="tracking-button large-button" data-target="tracking-modal" data-title="<%= habit.title %>">Track Habit</button>
 			</article>
 		</main>
 	</div>
+	<%- include('../partials/trackingModal'); %>
 	<%- include('../partials/footer'); %>
 </body>
 </html>

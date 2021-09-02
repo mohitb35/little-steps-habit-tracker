@@ -59,71 +59,9 @@
 						</div>
 					</div>
 				</a>
-				<button class="large-button">Track</button>
+				<button class="tracking-button large-button" data-target="tracking-modal" data-title="<%= habit.title %>">Track</button>
 			</article>
 			<% } %>
-			<!-- <article class="habit-card">
-				<a href="/habits/randomId">
-					<div class="card-contents">
-						<header class="card-header">
-							<h2 class="habit-title">Walk Daily</h2>
-							<div class="habit-highlight">
-								<img src="/media/icon-status-yellow.svg" />
-								<span class="highlight-text">Can improve</span>
-							</div>
-						</header>
-						<div class="habit-highlight">
-							<img src="/media/icon-flame.svg" />
-							<span>3 days</span>
-						</div>
-						<div class="habit-highlight">
-							<img src="/media/icon-calendar.svg" />
-							<span>Just completed yesterday</span>
-						</div>
-					</div>
-				</a>
-				<button class="large-button">Track</button>
-			</article>
-			<article class="habit-card">
-				<div class="card-contents">
-					<header class="card-header">
-						<h2 class="habit-title">Walk Daily</h2>
-						<div class="habit-highlight">
-							<img src="/media/icon-status-green.svg" />
-							<span class="highlight-text">On track</span>
-						</div>
-					</header>
-					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>7 days</span>
-					</div>
-					<div class="habit-highlight">
-						<img src="/media/icon-calendar.svg" />
-						<span>Just completed yesterday</span>
-					</div>
-				</div>
-				<button class="large-button">Track</button>
-			</article>
-			<article class="habit-card">
-				<div class="card-contents">
-					<header class="card-header">
-						<h2 class="habit-title">Walk Daily</h2>
-						<div class="habit-highlight">
-							<img src="/media/icon-status-red.svg" />
-							<span class="highlight-text">Off the rails</span>
-						</div>
-					</header>
-					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>0 days</span>
-					</div>
-					<div class="habit-highlight">
-						<img src="/media/icon-calendar.svg" />
-						<span>One week ago</span>
-					</div>
-				</div>
-				<button class="large-button">Track</button>
-			</article> -->
 		</main>
 	</div>
 	<div id="logout-modal" class="modal hidden">
@@ -141,6 +79,7 @@
 			</div>
 		</div>
 	</div>
+	<%- include('partials/trackingModal'); %>
 	<% } %> <%- include('partials/footer'); %>
 </body>
 </html>

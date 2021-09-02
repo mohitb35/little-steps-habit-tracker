@@ -2,6 +2,7 @@ const body = document.querySelector('body');
 const flashContainers = document.querySelectorAll('.flash');
 const modalCloseButtons = document.querySelectorAll('.modal-close-button');
 const logoutButton = document.getElementById('logout-button');
+const trackingButtons = document.querySelectorAll('.tracking-button');
 
 window.addEventListener('load', function () {
 	body.classList.remove('preload');
@@ -27,12 +28,23 @@ function hideModal(event) {
 	targetModal.classList.add("hidden");
 }
 
-logoutButton.addEventListener('click', showModal);
+if (logoutButton) {
+	logoutButton.addEventListener('click', showModal);
+}
+
+for (let trackingButton of trackingButtons) {
+	trackingButton.addEventListener('click', showModal);
+}
 
 function showModal(event) {
+	const title = this.dataset.title;
 	const targetModal = document.getElementById(this.dataset.target);
+	if (title) {
+		const modalTitle = targetModal.querySelector(".modal-title");
+		modalTitle.innerText = title;
+	}
 	targetModal.classList.remove("hidden");
-}
+};
 
 
 
