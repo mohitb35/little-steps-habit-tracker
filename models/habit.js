@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const HabitLog = require('./habitLog');
+
 const habitOptions = {
 	timestamps: true
 }
@@ -31,6 +33,11 @@ const habitSchema = new Schema (
 		due: {
 			type: Date
 		},
+		last_log: {
+			type: Schema.Types.ObjectId,
+			ref: 'HabitLog',
+			required: [true, 'No habit log entry']
+		}, 
 		next_due: {
 			type: Date
 		},
@@ -48,5 +55,15 @@ habitSchema.virtual('prettyStartDate').get(function() {
 	let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	return `${ months[date.getMonth()] } ${ date.getDate() }, ${ date.getFullYear() }`;
 });
+
+habitSchema.post('findOneAndDelete', async (deletedHabit) => {
+	console.log("Post");
+	console.log(deletedHabit);
+	if (deletedHabit) {
+		await HabitLog.deleteMany({
+			habit: deletedHabit
+		})
+	};
+})
 
 module.exports = mongoose.model('Habit', habitSchema);

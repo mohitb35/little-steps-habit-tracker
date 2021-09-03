@@ -1,4 +1,5 @@
 const Habit = require('../models/habit');
+const HabitLog = require('../models/habitLog');
 
 const frequencies = ['daily']; 
 
@@ -32,7 +33,16 @@ const createHabit = async (req, res) => {
 	try {
 		const habit = new Habit(req.body.habit);
 		habit.creator = req.user.id;
-		await habit.save();
+		habit.due = new Date();
+		habit.next_due = getNextDate(habit.due, 1);
+		const habitLog = new HabitLog({
+			habit: habit.id,
+			date: habit.due,
+			status: 'pending'
+		});
+		habit.last_log = habitLog.id;
+		const savedHabit = await habit.save();
+		const savedLog = await habitLog.save();
 		req.flash('success', 'New habit created');
 		res.redirect(`/habits/${habit.id}`); 
 	} catch (err) {
@@ -40,6 +50,13 @@ const createHabit = async (req, res) => {
 		res.redirect('/habits/new');
 	}
 };
+
+// move to utils
+function getNextDate(date, increment) {
+	let nextDate = new Date(date);
+	nextDate.setDate(date.getDate() + increment);
+	return nextDate;
+}
 
 const renderEditHabitForm = async (req, res) => {
 	try {
@@ -74,7 +91,7 @@ const deleteHabit = async (req, res) => {
 		res.redirect('/dashboard');
 	} catch (err) {
 		req.flash('error', err.message);
-		res.redirect(`/habits/${habit.id}`);
+		res.redirect(`/habits/${habitId}`);
 	}
 }
 
