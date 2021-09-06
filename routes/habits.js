@@ -20,8 +20,6 @@ router.route('/:habitId')
 router.get('/:habitId/edit', isLoggedIn, isCreator, habitsController.renderEditHabitForm );
 
 // Pending
-router.put('/:habitId/track', (req, res) => {
-	res.send(`Tracking habit: ${req.params.habitId}`);
-})
+router.put('/:habitId/track', isCreator, habitsController.trackHabit );
 
 module.exports = router;

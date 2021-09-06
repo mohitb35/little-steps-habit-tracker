@@ -143,6 +143,40 @@ const deleteHabit = async (req, res) => {
 	}
 }
 
+const trackHabit = async (req, res) => {
+	// res.send(`Tracking habit: ${req.params.habitId}`);
+	try {
+		// Fetch habit details
+		const habitId = req.params.habitId;
+		const habit = await Habit.findById(habitId);
+		// Update habit_log for due_date as completed
+		let updatedLog = await HabitLog.findByIdAndUpdate(
+			habit.last_log,
+			{ status: 'complete' }, 
+			{ new: true, useFindAndModify: false, runValidators: true }
+		)
+		// Update last_completed, set next due date, and update next_due, creating a new habit_log entry, and updating the last_log for the habit
+		habit.last_completed = habit.due;
+		habit.due = habit.next_due;
+		habit.next_due = getNextDate(habit.due, 1);
+		
+		let newLog = new HabitLog({
+			habit: habit.id,
+			date: habit.due,
+			status: 'pending'
+		});
+
+		habit.last_log = newLog.id;
+
+		await habit.save();
+		await newLog.save();
+		res.redirect(`/habits/${habit.id}`);
+	} catch (err) {
+		req.flash('error', err.message);
+		res.redirect(`/habits/${habit.id}`);
+	}
+};
+
 
 module.exports = {
 	renderDashboard,
@@ -151,5 +185,6 @@ module.exports = {
 	createHabit,
 	renderEditHabitForm,
 	updateHabit,
-	deleteHabit
+	deleteHabit,
+	trackHabit
 };

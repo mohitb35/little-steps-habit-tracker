@@ -37,11 +37,15 @@ for (let trackingButton of trackingButtons) {
 }
 
 function showModal(event) {
-	const title = this.dataset.title;
-	const targetModal = document.getElementById(this.dataset.target);
+	const { title, habitId, target } = this.dataset;
+	const targetModal = document.getElementById(target);
 	if (title) {
 		const modalTitle = targetModal.querySelector(".modal-title");
 		modalTitle.innerText = title;
+	}
+	if (habitId) {
+		const trackHabitForm = targetModal.querySelector("#track-habit-form");
+		trackHabitForm.action = `/habits/${habitId}/track?_method=PUT`;
 	}
 	targetModal.classList.remove("hidden");
 };

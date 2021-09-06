@@ -42,7 +42,13 @@
 						</div>
 					</div>
 				</div>
-				<button class="tracking-button large-button" data-target="tracking-modal" data-title="<%= habit.title %>">Track Habit</button>
+				<button 
+					class="tracking-button large-button" 
+					data-target="tracking-modal" 
+					data-title="<%= habit.title %>" 
+					data-habit-id="<%= habit.id %>"
+					<%= habit.is_tracking_enabled ? "" : "disabled" %>
+				>Track Habit</button>
 			</article>
 		</main>
 	</div>

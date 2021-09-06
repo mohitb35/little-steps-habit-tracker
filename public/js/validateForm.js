@@ -144,7 +144,6 @@ function validateRegister(event) {
 		handleGeneralFormError(this.querySelector('.form-feedback'));
 
 		const { title, frequency, purpose } = this.elements;
-		console.log(title.value, frequency.value, purpose.value);
 
 		// Validate title
 		const titleError = isFilled(title.value, "Please enter a habit name");
