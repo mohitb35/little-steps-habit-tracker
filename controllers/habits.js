@@ -6,6 +6,9 @@ const frequencies = ['daily'];
 const renderDashboard = async (req, res) => {
 	try {
 		const habits = await Habit.find({ creator: req.user.id });
+		for (let habit of habits) {
+			habit = await autoTrackHabit(habit);
+		}
 		return res.render('dashboard', { habits });
 	} catch (err) {
 		req.flash('error', err.message);
@@ -18,6 +21,7 @@ const showHabit = async (req, res) => {
 	try {
 		const habitId = req.params.habitId;
 		const habit = await Habit.findById(habitId);
+		await autoTrackHabit(habit);
 		res.render('habits/show', { habit });
 	} catch (err) {
 		req.flash('error', err.message);
@@ -25,6 +29,49 @@ const showHabit = async (req, res) => {
 	}
 };
 
+async function autoTrackHabit (habit) {
+	// check if habit due date has passed
+	let currentDate = new Date();
+	let cutoffDate = new Date(currentDate);
+	
+	cutoffDate.setDate(currentDate.getDate() - 2);
+	// let dueDate = habit.due;
+	console.log("Cutoff:", cutoffDate);
+
+	// While the due date is before cutoff date
+	while (cutoffDate > habit.due) {
+		console.log('updating missed due dates');
+		// 1. update habit log entry for due date -> update status to missed
+		let updatedLog = await HabitLog.findByIdAndUpdate( 
+			habit.last_log,
+			{ status: 'missed' }, 
+			{ new: true, useFindAndModify: false, runValidators: true }
+		);
+		
+		console.log("Updated log:", updatedLog);
+
+		// 2. update due to next due and interval next_due
+		habit.due = habit.next_due;
+		habit.next_due = getNextDate(habit.due, 1);
+
+		// 3. Add a new entry in habit log with the new due date
+		let newLog = new HabitLog({
+			habit: habit.id,
+			date: habit.due,
+			status: 'pending'
+		});
+
+		habit.last_log = newLog.id;
+		console.log("new log:", newLog);
+		console.log("Updated habit:", habit);
+
+		// 4. Save changes to DB
+		await habit.save();
+		await newLog.save();
+	}
+
+	return habit;
+}
 const renderNewHabitForm = (req, res) => {
 	res.render('habits/new', { frequencies });
 };
@@ -52,9 +99,9 @@ const createHabit = async (req, res) => {
 };
 
 // move to utils
-function getNextDate(date, increment) {
+function getNextDate(date, interval) {
 	let nextDate = new Date(date);
-	nextDate.setDate(date.getDate() + increment);
+	nextDate.setDate(date.getDate() + interval);
 	return nextDate;
 }
 
@@ -74,9 +121,10 @@ const updateHabit = async (req, res) => {
 		const habitId = req.params.habitId;
 		const habit = req.body.habit;
 		const updatedHabit = await Habit.findByIdAndUpdate(
-			habitId, habit, { new: true, useFindAndModify: false, runValidators: true }
+			habitId, 
+			habit, 
+			{ new: true, useFindAndModify: false, runValidators: true }
 		);
-		console.log(updatedHabit)
 		res.redirect(`/habits/${updatedHabit.id}`);
 	} catch (err) {
 		req.flash('error', err.message);
