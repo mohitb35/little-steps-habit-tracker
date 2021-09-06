@@ -45,6 +45,9 @@ const habitSchema = new Schema (
 			type: Schema.Types.ObjectId,
 			ref: 'User', 
 			required: [true, 'No creator assigned']
+		},
+		is_tracking_enabled: {
+			type: Boolean
 		}
 	},
 	habitOptions

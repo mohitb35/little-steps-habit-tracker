@@ -22,6 +22,7 @@ const showHabit = async (req, res) => {
 		const habitId = req.params.habitId;
 		const habit = await Habit.findById(habitId);
 		await autoTrackHabit(habit);
+		await enableDisableTracking(habit);
 		res.render('habits/show', { habit });
 	} catch (err) {
 		req.flash('error', err.message);
@@ -72,6 +73,20 @@ async function autoTrackHabit (habit) {
 
 	return habit;
 }
+
+async function enableDisableTracking(habit) {
+	let currentDate = new Date();
+	console.log(habit);
+	console.log(currentDate);
+	if (habit.due > currentDate && habit.due.getDate()!== currentDate.getDate()) {
+		habit.is_tracking_enabled = false;
+	} else {
+		habit.is_tracking_enabled = true;
+	}
+	await habit.save();
+	return habit;
+}
+
 const renderNewHabitForm = (req, res) => {
 	res.render('habits/new', { frequencies });
 };
