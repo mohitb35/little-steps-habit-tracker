@@ -71,18 +71,41 @@ async function autoTrackHabit (habit) {
 		await newLog.save();
 	}
 
+	await updateStreak(habit);
 	return habit;
 }
 
 async function enableDisableTracking(habit) {
 	let currentDate = new Date();
-	console.log(habit);
-	console.log(currentDate);
 	if (habit.due > currentDate && habit.due.getDate()!== currentDate.getDate()) {
 		habit.is_tracking_enabled = false;
 	} else {
 		habit.is_tracking_enabled = true;
 	}
+	await habit.save();
+	return habit;
+}
+
+async function updateStreak (habit) {
+	// Get habit logs with status 'missed/complete' ordered in reverse order of date
+	const habitLogs = await HabitLog.find({ 
+		habit: habit.id, 
+		status: { $in: ["missed", "complete"] } 
+	}).sort({ date: 'desc' });
+	
+	console.log("Calculating streak length. Viewing habit logs.");
+	console.log(habitLogs);
+
+	let streak = 0;
+	for (let log of habitLogs) {
+		if (log.status === 'complete') {
+			streak++;
+		} else {
+			break;
+		}
+	}
+
+	habit.streak = streak;
 	await habit.save();
 	return habit;
 }
@@ -185,6 +208,8 @@ const trackHabit = async (req, res) => {
 
 		await habit.save();
 		await newLog.save();
+		// await updateStreak(habit);
+
 		res.redirect(`/habits/${habit.id}`);
 	} catch (err) {
 		req.flash('error', err.message);
