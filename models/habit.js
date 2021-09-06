@@ -59,6 +59,39 @@ habitSchema.virtual('prettyStartDate').get(function() {
 	return `${ months[date.getMonth()] } ${ date.getDate() }, ${ date.getFullYear() }`;
 });
 
+habitSchema.virtual('lastCompletedText').get(function() {
+	let currentDate = new Date();
+	let dayCount;
+	if (this.last_completed) {
+		dayCount = Math.floor( Math.abs(
+			(currentDate.getTime() - this.last_completed.getTime())/(24 * 60 * 60 * 1000)
+		));
+	} else {
+		dayCount = 0;
+	}
+	switch (dayCount) {
+		case 0: 
+			return 'today';
+			break;
+		case 1:
+			return 'yesterday';
+			break;
+		default:
+			if (dayCount < 7) {
+				return `${dayCount} days ago`;
+			} else if (dayCount < 30) {
+				let weekCount = Math.floor(dayCount/7);
+				return `${weekCount} week${weekCount > 1 ? 's': ''} ago`;
+			} else if (dayCount < 365) {
+				let monthCount = Math.floor(dayCount/30);
+				return `${monthCount} month${monthCount > 1 ? 's': ''} ago`;
+			} else {
+				let yearCount = Math.floor(dayCount/365);
+				return `${yearCount} year${yearCount > 1 ? 's': ''} ago`;
+			}
+	};
+});
+
 habitSchema.post('findOneAndDelete', async (deletedHabit) => {
 	console.log("Post");
 	console.log(deletedHabit);
