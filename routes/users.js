@@ -19,7 +19,7 @@ router.route('/login')
 		usersController.login
 	);
 
-router.get('/logout', usersController.logout);
+router.post('/logout', usersController.logout);
 
 router.route('/change-password')
 	.get( isLoggedIn, usersController.renderChangePasswordForm )

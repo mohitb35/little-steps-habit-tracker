@@ -20,32 +20,63 @@
 						<%= habit.purpose.length ? habit.purpose : "Not available" %>
 					</div>
 					<div class="habit-highlight">
-						<img src="/media/icon-status-green.svg" />
-						<span class="highlight-text">On track</span>
+						<% 	let statusImage;
+							switch (habit.status) {
+								case "On track":
+									statusImage = "/media/icon-status-green.svg";
+									break;
+								case "Could be better":
+									statusImage = "/media/icon-status-yellow.svg";
+									break;
+								case "Off the rails":
+									statusImage = "/media/icon-status-red.svg";
+									break;
+								default:
+									statusImage = "";
+									break;
+							}
+						%>
+						<img src="<%= statusImage %>" />
+						<span class="highlight-text"><%= habit.status %></span>
 					</div>
 					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>7 days</span>
+						<img src="/media/icon-flame.svg"/>
+						<span><%= habit.streak %> days</span>
 					</div>
 					<div class="habit-highlight">
 						<img src="/media/icon-calendar.svg" />
-						<span>Just completed yesterday</span>
+						<% if (habit.last_completed) { %>
+							<span>Last completed <%= habit.lastCompletedText %></span>
+						<% } else { %>
+							<span><%= habit.lastCompletedText %></span>
+						<% } %>
 					</div>
 					<div class="habit-history-container">
 						<div class="habit-label">Last 30 days</div>
-						<div class="habit-history">
-							<% for (let i = 0; i < 30; i++) { if (i % 3 === 0) { %>
-							<img src="/media/icon-habit-missed.svg" alt="" />
-							<% } else { %>
-							<img src="/media/icon-habit-completed.svg" alt="" />
-							<% } } %>
-						</div>
+						<% if (history.length > 0) { %>
+							<div class="habit-history">
+								<% for (let log of history) { if (log.status === 'missed') { %>
+								<img src="/media/icon-habit-missed.svg" alt="" />
+								<% } else { %>
+								<img src="/media/icon-habit-completed.svg" alt="" />
+								<% } } %>
+							</div>
+						<% } else { %>
+							<div class="habit-history">Not available yet</div>
+						<% } %>
 					</div>
 				</div>
-				<button class="large-button">Track Habit</button>
+				<button 
+					class="tracking-button large-button" 
+					data-target="tracking-modal" 
+					data-title="<%= habit.title %>" 
+					data-habit-id="<%= habit.id %>"
+					<%= habit.is_tracking_enabled ? "" : "disabled" %>
+				>Track Habit</button>
 			</article>
 		</main>
 	</div>
+	<%- include('../partials/trackingModal'); %>
 	<%- include('../partials/footer'); %>
 </body>
 </html>

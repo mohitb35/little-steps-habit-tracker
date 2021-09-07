@@ -1,13 +1,12 @@
 <%- include('partials/head', {title: "Your Dashboard - Little Steps"}); %>
 <body class="preload">	
-<div class="container container-large dashboard">
+	<div class="container container-large dashboard">
 		<% if (!currentUser) { %>
 		<div>
 			<a href="/register">Register</a>
 			<a href="/login">Login</a>
 		</div>
 		<% } else { %>
-		<!-- <div><%= //currentUser %></div> -->
 		<section class="banner">
 			<div class="banner-quote">
 				<blockquote>
@@ -16,12 +15,12 @@
 				<cite>Jim Ryun</cite>
 			</div>
 			<div class="banner-actions">
-				<a class="action round-button" href="/logout"
+				<button class="action round-button" id="logout-button" data-target="logout-modal"
 					><img
 						src="/media/round-button-logout.svg"
 						alt="Logout"
 						title="Logout"
-				/></a>
+				/></button>
 				<a class="action round-button" href="/change-password"
 					><img
 						src="/media/round-button-change-password.svg"
@@ -46,87 +45,67 @@
 						<header class="card-header">
 							<h2 class="habit-title"><%= habit.title %></h2>
 							<div class="habit-highlight">
-								<img src="/media/icon-status-yellow.svg" />
-								<span class="highlight-text">Can improve</span>
+								<% 	let statusImage;
+									switch (habit.status) {
+										case "On track":
+											statusImage = "/media/icon-status-green.svg";
+											break;
+										case "Could be better":
+											statusImage = "/media/icon-status-yellow.svg";
+											break;
+										case "Off the rails":
+											statusImage = "/media/icon-status-red.svg";
+											break;
+										default:
+											statusImage = "";
+											break;
+									}
+								%>
+								<img src="<%= statusImage %>" />
+								<span class="highlight-text"><%= habit.status %></span>
 							</div>
 						</header>
 						<div class="habit-highlight">
 							<img src="/media/icon-flame.svg" />
-							<span>3 days</span>
+							<span><%= habit.streak %> days</span>
 						</div>
 						<div class="habit-highlight">
 							<img src="/media/icon-calendar.svg" />
-							<span>Just completed yesterday</span>
+							<% if (habit.last_completed) { %>
+								<span>Last completed <%= habit.lastCompletedText %></span>
+							<% } else { %>
+								<span><%= habit.lastCompletedText %></span>
+							<% } %>
 						</div>
 					</div>
 				</a>
-				<button class="large-button">Track</button>
+				<button 
+					class="tracking-button large-button" 
+					data-target="tracking-modal" 
+					data-title="<%= habit.title %>" 
+					data-habit-id="<%= habit.id %>"
+					<%= habit.is_tracking_enabled ? "" : "disabled" %>
+				>Track</button>
 			</article>
 			<% } %>
-			<!-- <article class="habit-card">
-				<a href="/habits/randomId">
-					<div class="card-contents">
-						<header class="card-header">
-							<h2 class="habit-title">Walk Daily</h2>
-							<div class="habit-highlight">
-								<img src="/media/icon-status-yellow.svg" />
-								<span class="highlight-text">Can improve</span>
-							</div>
-						</header>
-						<div class="habit-highlight">
-							<img src="/media/icon-flame.svg" />
-							<span>3 days</span>
-						</div>
-						<div class="habit-highlight">
-							<img src="/media/icon-calendar.svg" />
-							<span>Just completed yesterday</span>
-						</div>
-					</div>
-				</a>
-				<button class="large-button">Track</button>
-			</article>
-			<article class="habit-card">
-				<div class="card-contents">
-					<header class="card-header">
-						<h2 class="habit-title">Walk Daily</h2>
-						<div class="habit-highlight">
-							<img src="/media/icon-status-green.svg" />
-							<span class="highlight-text">On track</span>
-						</div>
-					</header>
-					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>7 days</span>
-					</div>
-					<div class="habit-highlight">
-						<img src="/media/icon-calendar.svg" />
-						<span>Just completed yesterday</span>
-					</div>
-				</div>
-				<button class="large-button">Track</button>
-			</article>
-			<article class="habit-card">
-				<div class="card-contents">
-					<header class="card-header">
-						<h2 class="habit-title">Walk Daily</h2>
-						<div class="habit-highlight">
-							<img src="/media/icon-status-red.svg" />
-							<span class="highlight-text">Off the rails</span>
-						</div>
-					</header>
-					<div class="habit-highlight">
-						<img src="/media/icon-flame.svg" />
-						<span>0 days</span>
-					</div>
-					<div class="habit-highlight">
-						<img src="/media/icon-calendar.svg" />
-						<span>One week ago</span>
-					</div>
-				</div>
-				<button class="large-button">Track</button>
-			</article> -->
 		</main>
 	</div>
+	<div id="logout-modal" class="modal hidden">
+		<div class="modal-wrapper">
+			<button class="modal-close-button" data-target="logout-modal"><img src="/media/cross-icon.svg" alt="Close button"></button>
+			<div class="modal-contents">
+				<h4 class="modal-title">Logout</h4>
+				<p class="modal-text">Are you sure you want to log out?</p>
+				<div class="modal-actions">
+					<form action="/logout" method="POST">
+						<button class="small-button action-desired">Yes</button>
+					</form>
+					<button class="small-button modal-close-button" data-target="logout-modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%- include('partials/trackingModal'); %>
 	<% } %> <%- include('partials/footer'); %>
 </body>
 </html>
