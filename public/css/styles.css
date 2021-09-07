@@ -352,6 +352,9 @@ input.invalid-input {
 	margin-top: 10px;
 	row-gap: 16px;
 	column-gap: 10px;
+	font-size: 0.9rem;
+	font-weight: 300;
+	font-style: italic;
 }
 
 /* Title bar styles */

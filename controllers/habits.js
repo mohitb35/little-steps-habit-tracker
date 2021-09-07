@@ -23,7 +23,8 @@ const showHabit = async (req, res) => {
 		const habit = await Habit.findById(habitId);
 		await autoTrackHabit(habit);
 		await enableDisableTracking(habit);
-		res.render('habits/show', { habit });
+		const history = await getHistory(habit);
+		res.render('habits/show', { habit, history });
 	} catch (err) {
 		req.flash('error', err.message);
 		res.redirect('/dashboard');
@@ -110,6 +111,16 @@ async function updateStreak (habit) {
 	return habit;
 }
 
+async function getHistory (habit) {
+	const history = await HabitLog.find({
+		habit: habit.id, 
+		status: { $in: ["missed", "complete"] } 
+	})
+	.limit(30)
+	.sort({ date: 'desc' });
+
+	return history;
+}
 const renderNewHabitForm = (req, res) => {
 	res.render('habits/new', { frequencies });
 };

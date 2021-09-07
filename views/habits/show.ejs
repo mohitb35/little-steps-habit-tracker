@@ -37,13 +37,17 @@
 					</div>
 					<div class="habit-history-container">
 						<div class="habit-label">Last 30 days</div>
-						<div class="habit-history">
-							<% for (let i = 0; i < 30; i++) { if (i % 3 === 0) { %>
-							<img src="/media/icon-habit-missed.svg" alt="" />
-							<% } else { %>
-							<img src="/media/icon-habit-completed.svg" alt="" />
-							<% } } %>
-						</div>
+						<% if (history.length > 0) { %>
+							<div class="habit-history">
+								<% for (let log of history) { if (log.status === 'missed') { %>
+								<img src="/media/icon-habit-missed.svg" alt="" />
+								<% } else { %>
+								<img src="/media/icon-habit-completed.svg" alt="" />
+								<% } } %>
+							</div>
+						<% } else { %>
+							<div class="habit-history">Not available yet</div>
+						<% } %>
 					</div>
 				</div>
 				<button 
