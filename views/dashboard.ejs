@@ -55,7 +55,11 @@
 						</div>
 						<div class="habit-highlight">
 							<img src="/media/icon-calendar.svg" />
-							<span>Last completed <%= habit.lastCompletedText %></span>
+							<% if (habit.last_completed) { %>
+								<span>Last completed <%= habit.lastCompletedText %></span>
+							<% } else { %>
+								<span><%= habit.lastCompletedText %></span>
+							<% } %>
 						</div>
 					</div>
 				</a>

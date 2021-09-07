@@ -67,9 +67,12 @@ habitSchema.virtual('lastCompletedText').get(function() {
 			(currentDate.getTime() - this.last_completed.getTime())/(24 * 60 * 60 * 1000)
 		));
 	} else {
-		dayCount = 0;
+		dayCount = -1;
 	}
 	switch (dayCount) {
+		case -1: 
+			return 'Not completed yet';
+			break;
 		case 0: 
 			return 'today';
 			break;
