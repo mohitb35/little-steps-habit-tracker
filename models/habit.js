@@ -61,14 +61,25 @@ habitSchema.virtual('prettyStartDate').get(function() {
 
 habitSchema.virtual('lastCompletedText').get(function() {
 	let currentDate = new Date();
+	currentDate.setHours(0);
+	currentDate.setMinutes(0);
+	currentDate.setSeconds(0);
+	currentDate.setMilliseconds(0);
+
 	let dayCount;
+	
 	if (this.last_completed) {
-		dayCount = Math.floor( Math.abs(
-			(currentDate.getTime() - this.last_completed.getTime())/(24 * 60 * 60 * 1000)
-		));
+		let compDate = new Date(this.last_completed);
+		compDate.setHours(0);
+		compDate.setMinutes(0);
+		compDate.setSeconds(0);
+		compDate.setMilliseconds(0);
+
+		dayCount = (currentDate - compDate)/(24 * 60 * 60 * 1000);
 	} else {
 		dayCount = -1;
 	}
+	
 	switch (dayCount) {
 		case -1: 
 			return 'Not completed yet';
