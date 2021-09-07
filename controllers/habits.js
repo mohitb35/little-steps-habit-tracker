@@ -73,6 +73,7 @@ async function autoTrackHabit (habit) {
 	}
 
 	await updateStreak(habit);
+	await updateStatus(habit);
 	return habit;
 }
 
@@ -94,9 +95,6 @@ async function updateStreak (habit) {
 		status: { $in: ["missed", "complete"] } 
 	}).sort({ date: 'desc' });
 	
-	console.log("Calculating streak length. Viewing habit logs.");
-	console.log(habitLogs);
-
 	let streak = 0;
 	for (let log of habitLogs) {
 		if (log.status === 'complete') {
@@ -121,6 +119,33 @@ async function getHistory (habit) {
 
 	return history;
 }
+
+async function updateStatus (habit) {
+	const last7days = await HabitLog.find({
+		habit: habit.id, 
+		status: { $in: ["missed", "complete"] } 
+	})
+	.limit(7)
+	.sort({ date: 'desc' });
+
+	let missedCount = 0;
+
+	for (let log of last7days) {
+		if (log.status === "missed") missedCount++;
+	};
+
+	if (missedCount === 0 ) {
+		habit.status = "On track";
+	} else if (missedCount <= 2 ) {
+		habit.status = "Could be better";
+	} else {
+		habit.status = "Off the rails";
+	}
+
+	await habit.save();
+	return habit;
+}
+
 const renderNewHabitForm = (req, res) => {
 	res.render('habits/new', { frequencies });
 };
@@ -220,6 +245,7 @@ const trackHabit = async (req, res) => {
 		await habit.save();
 		await newLog.save();
 		// await updateStreak(habit);
+		// await updateStatus(habit);
 
 		res.redirect(`/habits/${habit.id}`);
 	} catch (err) {

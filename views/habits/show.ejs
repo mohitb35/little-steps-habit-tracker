@@ -20,8 +20,24 @@
 						<%= habit.purpose.length ? habit.purpose : "Not available" %>
 					</div>
 					<div class="habit-highlight">
-						<img src="/media/icon-status-green.svg" />
-						<span class="highlight-text">On track</span>
+						<% 	let statusImage;
+							switch (habit.status) {
+								case "On track":
+									statusImage = "/media/icon-status-green.svg";
+									break;
+								case "Could be better":
+									statusImage = "/media/icon-status-yellow.svg";
+									break;
+								case "Off the rails":
+									statusImage = "/media/icon-status-red.svg";
+									break;
+								default:
+									statusImage = "";
+									break;
+							}
+						%>
+						<img src="<%= statusImage %>" />
+						<span class="highlight-text"><%= habit.status %></span>
 					</div>
 					<div class="habit-highlight">
 						<img src="/media/icon-flame.svg"/>

@@ -45,8 +45,24 @@
 						<header class="card-header">
 							<h2 class="habit-title"><%= habit.title %></h2>
 							<div class="habit-highlight">
-								<img src="/media/icon-status-yellow.svg" />
-								<span class="highlight-text">Can improve</span>
+								<% 	let statusImage;
+									switch (habit.status) {
+										case "On track":
+											statusImage = "/media/icon-status-green.svg";
+											break;
+										case "Could be better":
+											statusImage = "/media/icon-status-yellow.svg";
+											break;
+										case "Off the rails":
+											statusImage = "/media/icon-status-red.svg";
+											break;
+										default:
+											statusImage = "";
+											break;
+									}
+								%>
+								<img src="<%= statusImage %>" />
+								<span class="highlight-text"><%= habit.status %></span>
 							</div>
 						</header>
 						<div class="habit-highlight">
