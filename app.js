@@ -76,9 +76,20 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', isLoggedIn, habitsController.renderDashboard);
+app.get('/error', (req, res) => {
+	res.render('error');
+});
 
 app.use('/', userRoutes);
 app.use('/habits', habitRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+	const { statusCode = 500 } = err;
+	if (!err.message) err.message = 'Something went wrong!';
+ 	// res.send("Something went wrong!!");
+	res.status(statusCode).render('error', { err });
+})
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => {

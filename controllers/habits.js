@@ -3,7 +3,7 @@ const HabitLog = require('../models/habitLog');
 
 const frequencies = ['daily']; 
 
-const renderDashboard = async (req, res) => {
+const renderDashboard = async (req, res, next) => {
 	try {
 		const habits = await Habit.find({ creator: req.user.id });
 		for (let habit of habits) {
@@ -11,9 +11,9 @@ const renderDashboard = async (req, res) => {
 		}
 		return res.render('dashboard', { habits });
 	} catch (err) {
-		req.flash('error', err.message);
-		res.redirect ('/dashboard'); 
-		//To be replaced by an error page as this would lead to an infinite loop
+		// req.flash('error', err.message);
+		console.dir(err);
+		next(err);
 	}
 };
 

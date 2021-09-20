@@ -1,9 +1,10 @@
 <nav class="titlebar">
 	<div class="titlebar-left-container">
+		<% if (backUrl) { %>
 		<a href="<%= backUrl %>"
 			><img src="/media/back-arrow.svg" alt="Back" title="Back"
 		/></a>
-		<% if (title) { %>
+		<% } %> <% if (title) { %>
 		<h1 class="title"><%= title %></h1>
 		<% } %>
 	</div>

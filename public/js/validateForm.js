@@ -135,7 +135,7 @@ function validateRegister(event) {
 }
 
 /**
- * Validates the add habit form
+ * Validates the add/edit habit form
  * @param {Event} event - form submit event
  * @listens SubmitEvent
  */
