@@ -14,7 +14,8 @@ const habitRoutes = require('./routes/habits');
 const User = require('./models/user');
 
 const habitsController = require('./controllers/habits');
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn } = require('./utils/middleware');
+const ExpressError = require('./utils/ExpressError');
 
 mongoose.connect(
 	'mongodb://localhost:27017/lsht_app', //specifies URL, port and database name
