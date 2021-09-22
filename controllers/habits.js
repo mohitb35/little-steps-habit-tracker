@@ -7,7 +7,8 @@ const renderDashboard = async (req, res, next) => {
 	try {
 		const habits = await Habit.find({ creator: req.user.id });
 		for (let habit of habits) {
-			habit = await autoTrackHabit(habit);
+			await autoTrackHabit(habit);
+			await enableDisableTracking(habit);
 		}
 		return res.render('dashboard', { habits });
 	} catch (err) {
