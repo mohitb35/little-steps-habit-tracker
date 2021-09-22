@@ -16,10 +16,12 @@
 						<div class="error-info">If the error persists, please get in touch with us at <a href = "mailto: support@littlesteps.com">support@littlesteps.com</a></div>	 
 					<% } %>
 				</div>
-				<button 
-					class="large-button" id="logout-button"
-					data-target="logout-modal" 
-				>Logout</button>
+				<% if (currentUser) { %>
+					<button 
+						class="large-button" id="logout-button"
+						data-target="logout-modal" 
+					>Logout</button>
+				<% } %>
 			</article>
 		</main>
 	</div>

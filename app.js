@@ -84,6 +84,11 @@ app.get('/error', (req, res) => {
 app.use('/', userRoutes);
 app.use('/habits', habitRoutes);
 
+// Catch All Route
+app.all('*', (req, res, next) => {
+	next(new ExpressError(404, 'Page not found!'));
+})
+
 // Error handling middleware
 app.use((err, req, res, next) => {
 	const { statusCode = 500 } = err;

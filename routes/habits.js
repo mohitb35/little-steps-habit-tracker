@@ -19,7 +19,6 @@ router.route('/:habitId')
 
 router.get('/:habitId/edit', isLoggedIn, isCreator, habitsController.renderEditHabitForm );
 
-// Pending
-router.put('/:habitId/track', isCreator, habitsController.trackHabit );
+router.put('/:habitId/track', isLoggedIn, isCreator, habitsController.trackHabit );
 
 module.exports = router;

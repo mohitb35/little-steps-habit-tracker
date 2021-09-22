@@ -199,6 +199,7 @@ const updateHabit = async (req, res) => {
 			habit, 
 			{ new: true, useFindAndModify: false, runValidators: true }
 		);
+		req.flash('success', 'Habit updated successfully');
 		res.redirect(`/habits/${updatedHabit.id}`);
 	} catch (err) {
 		req.flash('error', err.message);
@@ -210,6 +211,7 @@ const deleteHabit = async (req, res) => {
 	try { 
 		const habitId = req.params.habitId;
 		const deletedHabit = await Habit.findByIdAndDelete(habitId);
+		req.flash('success', 'Habit deleted successfully');
 		res.redirect('/dashboard');
 	} catch (err) {
 		req.flash('error', err.message);
@@ -246,8 +248,9 @@ const trackHabit = async (req, res) => {
 		await newLog.save();
 		// await updateStreak(habit);
 		// await updateStatus(habit);
-
-		res.redirect(`/habits/${habit.id}`);
+		let referingUrl = req.get('Referer');
+		req.flash('success', 'Habit completed successfully');
+		res.redirect(referingUrl);
 	} catch (err) {
 		req.flash('error', err.message);
 		res.redirect(`/habits/${habit.id}`);
