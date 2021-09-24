@@ -317,6 +317,7 @@ input.invalid-input {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
+	gap: 20px;
 }
 
 .habit-title,
@@ -330,6 +331,7 @@ input.invalid-input {
 	display: flex;
 	align-items: center;
 	gap: 5px;
+	min-width: fit-content;
 }
 
 .habit-created-date {
@@ -532,6 +534,8 @@ input.invalid-input {
 	.container.dashboard {
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
+		height: 100vh;
 	}
 
 	.banner {
@@ -554,7 +558,9 @@ input.invalid-input {
 	}
 
 	.container.dashboard .main-contents {
-		flex: 1 0 auto;
-		margin: 20px;
+		flex: 1 1 auto;
+		margin: 0;
+		padding: 20px;
+		overflow: auto;
 	}
 }
