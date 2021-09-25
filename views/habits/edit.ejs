@@ -34,7 +34,7 @@
 									<option 
 										value="<%= frequency %>" 
 										<%= (frequency === habit.frequency) ? 'selected' : ''%>
-									><%= frequency %></option>
+									><%= frequency[0].toUpperCase() + frequency.slice(1) %></option>
 								<% } %>
 							</select>
 							<div class="feedback"></div>

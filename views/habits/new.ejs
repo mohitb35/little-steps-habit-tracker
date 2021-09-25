@@ -29,7 +29,9 @@
 							<label for="frequency">Frequency</label>
 							<select name="habit[frequency]" id="frequency" required>
 								<% for (let frequency of frequencies) { %>
-								<option value="<%= frequency %>"><%= frequency %></option>
+								<option value="<%= frequency %>">
+									<%= frequency[0].toUpperCase() + frequency.slice(1) %>
+								</option>
 								<% } %>
 							</select>
 							<div class="feedback"></div>

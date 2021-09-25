@@ -168,6 +168,9 @@ body {
 }
 
 .large-button {
+	display: block;
+	box-sizing: border-box;
+	text-align: center;
 	width: 100%;
 	background: linear-gradient(
 		180deg,

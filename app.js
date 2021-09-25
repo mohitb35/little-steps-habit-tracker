@@ -86,7 +86,7 @@ app.use('/habits', habitRoutes);
 
 // Catch All Route
 app.all('*', (req, res, next) => {
-	next(new ExpressError(404, 'Page not found!'));
+	res.render('404');
 })
 
 // Error handling middleware
