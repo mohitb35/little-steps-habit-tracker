@@ -422,7 +422,7 @@ input.invalid-input {
 	height: 40px;
 }
 
-.titlebar form .round-button,
+.titlebar .round-button,
 .banner-actions .round-button {
 	width: fit-content;
 	border: none;

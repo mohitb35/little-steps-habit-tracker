@@ -3,6 +3,7 @@ const flashContainers = document.querySelectorAll('.flash');
 const modalCloseButtons = document.querySelectorAll('.modal-close-button');
 const logoutButton = document.getElementById('logout-button');
 const trackingButtons = document.querySelectorAll('.tracking-button');
+const deleteButton = document.getElementById('delete-habit-button');
 
 window.addEventListener('load', function () {
 	body.classList.remove('preload');
@@ -34,6 +35,10 @@ if (logoutButton) {
 
 for (let trackingButton of trackingButtons) {
 	trackingButton.addEventListener('click', showModal);
+}
+
+if (deleteButton) {
+	deleteButton.addEventListener('click', showModal);
 }
 
 function showModal(event) {

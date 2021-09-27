@@ -27,19 +27,17 @@
 				alt="Edit Habit"
 				title="Edit Habit"
 		/></a>
-		<form
-			id="delete-habit-form"
-			action="/habits/<%= habit.id %>?_method=DELETE"
-			method="POST"
+		<button
+			class="round-button"
+			id="delete-habit-button"
+			data-target="delete-habit-modal"
 		>
-			<button class="round-button" type="submit">
-				<img
-					src="/media/round-button-delete-habit.svg"
-					alt="Delete Habit"
-					title="Delete Habit"
-				/>
-			</button>
-		</form>
+			<img
+				src="/media/round-button-delete-habit.svg"
+				alt="Delete Habit"
+				title="Delete Habit"
+			/>
+		</button>
 	</div>
 	<% } %>
 </nav>
