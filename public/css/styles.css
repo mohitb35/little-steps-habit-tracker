@@ -440,6 +440,11 @@ input.invalid-input {
 	transform: scale(1.2);
 }
 
+img.track-habit-hint {
+	height: 24px;
+	margin-right: -10px;
+}
+
 /* Modal Styles */
 .modal {
 	position: fixed;
