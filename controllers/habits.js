@@ -5,7 +5,8 @@ const frequencies = ['daily'];
 
 const renderDashboard = async (req, res, next) => {
 	try {
-		const habits = await Habit.find({ creator: req.user.id });
+		const habits = await Habit.find({ creator: req.user.id })
+			.sort({ last_completed: 'asc' });
 		for (let habit of habits) {
 			await autoTrackHabit(habit);
 			await enableDisableTracking(habit);
