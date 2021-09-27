@@ -30,7 +30,7 @@
 							<select name="habit[frequency]" id="frequency" required>
 								<% for (let frequency of frequencies) { %>
 								<option value="<%= frequency %>">
-									<%= frequency[0].toUpperCase() + frequency.slice(1) %>
+									<%= frequency %>
 								</option>
 								<% } %>
 							</select>
