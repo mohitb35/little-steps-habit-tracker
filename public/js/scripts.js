@@ -37,7 +37,7 @@ for (let trackingButton of trackingButtons) {
 }
 
 function showModal(event) {
-	const { title, habitId, target } = this.dataset;
+	const { title, habitId, target, habitDueDate } = this.dataset;
 	const targetModal = document.getElementById(target);
 	if (title) {
 		const modalTitle = targetModal.querySelector(".modal-title");
@@ -47,8 +47,17 @@ function showModal(event) {
 		const trackHabitForm = targetModal.querySelector("#track-habit-form");
 		trackHabitForm.action = `/habits/${habitId}/track?_method=PUT`;
 	}
+	if (habitDueDate) {
+		const modalText = targetModal.querySelector(".modal-text");
+		modalText.innerText = `Did you complete this on ${printDate(habitDueDate)}?`;
+	}
 	targetModal.classList.remove("hidden");
 };
+
+function printDate(dateText) {
+	let date = new Date(dateText);
+	return date.toDateString();
+}
 
 
 
