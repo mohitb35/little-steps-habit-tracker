@@ -27,6 +27,27 @@ body {
 	background: linear-gradient(180deg, #4fd2ef 0%, rgba(79, 210, 239, 0.2) 100%);
 }
 
+::-webkit-scrollbar {
+	width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+	/* box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: inset 0px 1px 10px rgba(0, 0, 0, 0.3); */
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.9) 0%,
+		rgba(255, 255, 255, 0.7) 100%
+	);
+	border-radius: 0.25em;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(247, 100, 37, 0.75);
+	/* outline: 1px solid rgb(247, 100, 37, 0.75); */
+	border-radius: 0.25em;
+}
+
 .front-page .container {
 	background: linear-gradient(
 			180deg,
