@@ -1,4 +1,5 @@
 const Habit = require('../models/habit');
+const User = require('../models/user');
 const HabitLog = require('../models/habitLog');
 
 const frequencies = ['daily']; 
@@ -7,10 +8,23 @@ const renderDashboard = async (req, res, next) => {
 	try {
 		const habits = await Habit.find({ creator: req.user.id })
 			.sort({ last_completed: 'asc' });
-		for (let habit of habits) {
-			await autoTrackHabit(habit);
-			await enableDisableTracking(habit);
+
+		let { last_autotracked } = req.user;
+		let diff = 0;
+		let currentDate = new Date();
+
+		if (last_autotracked) {
+			diff = currentDate - last_autotracked;
 		}
+
+		if ( diff === 0 || diff > (24 * 60 * 60 * 1000) ) {
+			for (let habit of habits) {
+				await autoTrackHabit(habit);
+				await enableDisableTracking(habit);
+			}
+			await updateLastAutotracked(req.user.id, currentDate);
+		}
+
 		return res.render('dashboard', { habits });
 	} catch (err) {
 		// req.flash('error', err.message);
@@ -23,8 +37,20 @@ const showHabit = async (req, res) => {
 	try {
 		const habitId = req.params.habitId;
 		const habit = await Habit.findById(habitId);
-		await autoTrackHabit(habit);
-		await enableDisableTracking(habit);
+
+		let { last_autotracked } = req.user;
+		let diff = 0;
+		let currentDate = new Date();
+
+		if (last_autotracked) {
+			diff = currentDate - last_autotracked;
+		}
+
+		if ( diff === 0 || diff > (24 * 60 * 60 * 1000) ) {
+			await autoTrackHabit(habit);
+			await enableDisableTracking(habit);
+		}
+
 		const history = await getHistory(habit);
 		res.render('habits/show', { habit, history });
 	} catch (err) {
@@ -88,6 +114,14 @@ async function enableDisableTracking(habit) {
 	}
 	await habit.save();
 	return habit;
+}
+
+async function updateLastAutotracked(userId, currentDate) {
+	await User.findByIdAndUpdate(
+		userId,
+		{ last_autotracked: currentDate },
+		{ new: true, useFindAndModify: false, runValidators: true }
+	);
 }
 
 async function updateStreak (habit) {
@@ -166,6 +200,8 @@ const createHabit = async (req, res) => {
 		habit.last_log = habitLog.id;
 		const savedHabit = await habit.save();
 		const savedLog = await habitLog.save();
+		await updateStreak(habit);
+		await enableDisableTracking(habit);
 		req.flash('success', 'New habit created');
 		res.redirect(`/habits/${habit.id}`); 
 	} catch (err) {
@@ -248,8 +284,9 @@ const trackHabit = async (req, res) => {
 
 		await habit.save();
 		await newLog.save();
-		// await updateStreak(habit);
-		// await updateStatus(habit);
+		await updateStreak(habit);
+		await updateStatus(habit);
+		await enableDisableTracking(habit);
 		let referingUrl = req.get('Referer');
 		req.flash('success', 'Habit completed successfully');
 		res.redirect(referingUrl);

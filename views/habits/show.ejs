@@ -19,6 +19,7 @@
 						<span class="habit-label">Purpose:</span>
 						<%= habit.purpose.length ? habit.purpose : "Not available" %>
 					</div>
+					<% if (habit.status) { %>
 					<div class="habit-highlight">
 						<% 	let statusImage;
 							switch (habit.status) {
@@ -34,11 +35,11 @@
 								default:
 									statusImage = "";
 									break;
-							}
-						%>
+							} %>
 						<img src="<%= statusImage %>" />
 						<span class="highlight-text"><%= habit.status %></span>
 					</div>
+					<% } %>
 					<div class="habit-highlight">
 						<img src="/media/icon-flame.svg"/>
 						<span><%= habit.streak %> days</span>
