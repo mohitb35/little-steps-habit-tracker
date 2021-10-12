@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const mongoSanitize = require('express-mongo-sanitize');
 // const LocalStrategy = require('passport-local').Strategy;
 
 const userRoutes = require('./routes/users');
@@ -34,6 +35,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(mongoSanitize());
 
 const sessionConfig = {
 	name: 'lsht',
