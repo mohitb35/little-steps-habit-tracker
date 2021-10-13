@@ -15,12 +15,18 @@
 			class="track-habit-hint"
 			alt-text="hint - track habits with the button to the right"
 		/>
-		<a class="round-button" href="#"
-			><img
-				src="/media/round-button-track-habit.svg"
-				alt="Track Habit"
-				title="Track Habit"
-		/></a>
+		<button 
+			class="tracking-button round-button" 
+			data-target="tracking-modal" 
+			data-title="<%= habit.title %>" 
+			data-habit-id="<%= habit.id %>"
+			data-habit-due-date="<%= habit.due %>"
+			<%= habit.is_tracking_enabled ? "" : "disabled" %>
+		><img
+			src="/media/round-button-track-habit.svg"
+			alt="Track Habit"
+			title="Track Habit"
+		/></button>
 		<a class="round-button" href="/habits/<%= habit.id %>/edit"
 			><img
 				src="/media/round-button-edit-habit.svg"

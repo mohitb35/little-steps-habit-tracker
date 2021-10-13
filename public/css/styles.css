@@ -470,6 +470,12 @@ input.invalid-input {
 	transform: scale(1.2);
 }
 
+.round-button:disabled {
+	opacity: 60%;
+	/* font-size: 1rem; */
+	cursor: not-allowed;
+}
+
 img.track-habit-hint {
 	height: 24px;
 	margin-right: -10px;
