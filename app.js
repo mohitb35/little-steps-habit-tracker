@@ -94,7 +94,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
-	console.log("ENV:", process.env);
 	// console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
 	res.locals.success = req.flash('success');
@@ -133,6 +132,11 @@ app.use((err, req, res, next) => {
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => {
-	console.log(`Server started at http://localhost:${port} - ${new Date().toLocaleString()}`);
+	if (process.env.NODE_ENV !== "production") {
+		console.log(`${new Date().toLocaleString()} - Server started at http://localhost:${port}`);
+	} else {
+		console.log(`${new Date().toLocaleString()} - Server started for https://little-steps.herokuapp.com at port ${port}`);
+	}
+	
 })
 
