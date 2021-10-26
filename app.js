@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== "production"){
+	require('dotenv').config(); 
+}
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -5,6 +9,7 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const mongoSanitize = require('express-mongo-sanitize');
 // const LocalStrategy = require('passport-local').Strategy;
@@ -18,9 +23,20 @@ const habitsController = require('./controllers/habits');
 const { isLoggedIn } = require('./utils/middleware');
 const ExpressError = require('./utils/ExpressError');
 
+const dbUrl = process.env.DB_URL;//database URL (mongo atlas cloud)
+
+//specifies URL, port and database name (local)
+/*const dbUrl = 'mongodb://localhost:27017/lsht_app';*/
+
+
 mongoose.connect(
-	'mongodb://localhost:27017/lsht_app', //specifies URL, port and database name
-	{ useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true }
+	dbUrl,
+	{ 
+		useNewUrlParser: true, 
+		useUnifiedTopology: true, 
+		useFindAndModify: false, 
+		useCreateIndex: true 
+	}
 )
 .then(() => {
 	console.log("Connected to Little Steps DB");
@@ -38,9 +54,23 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'thishastobechangedlater';
+
+const store = new MongoStore({
+	mongoUrl: dbUrl,
+	secret,
+	touchAfter: 24 * 60 * 60,
+	mongoOptions: { useUnifiedTopology: true }
+});
+
+store.on("error", function(error) {
+	console.log("Session store error", error);
+})
+
 const sessionConfig = {
+	store,
 	name: 'lsht',
-	secret: 'thishastobechangedlater',
+	secret,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {

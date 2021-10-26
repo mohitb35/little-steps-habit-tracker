@@ -5,7 +5,5 @@ node_modules/
 .env
 
 # misc.
-public/js/snippets.js
-public/css/styles copy.css
 .DS_Store
 seedHabitLogs.js
