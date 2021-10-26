@@ -21,6 +21,7 @@
 								name="habit[title]"
 								autofocus
 								required
+								maxlength="200"
 							/>
 							<div class="feedback"></div>
 						</div>
@@ -28,7 +29,9 @@
 							<label for="frequency">Frequency</label>
 							<select name="habit[frequency]" id="frequency" required>
 								<% for (let frequency of frequencies) { %>
-								<option value="<%= frequency %>"><%= frequency %></option>
+								<option value="<%= frequency %>">
+									<%= frequency %>
+								</option>
 								<% } %>
 							</select>
 							<div class="feedback"></div>
@@ -40,6 +43,7 @@
 								id="purpose"
 								cols="30"
 								rows="10"
+								maxlength="1000"
 							></textarea>
 							<div class="feedback"></div>
 						</div>

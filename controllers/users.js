@@ -24,7 +24,10 @@ const renderLoginForm = (req, res) => {
 };
 
 const login = (req, res) => {
-	res.redirect('/dashboard');
+	req.flash('success', 'Welcome back!');
+	const redirectUrl = req.session.returnTo || '/dashboard';
+	delete req.session.returnTo;
+	res.redirect(redirectUrl);
 };
 
 const logout = (req, res) => {
@@ -50,6 +53,7 @@ const changePassword = async (req, res) => {
 		let user = await User.findById(req.user.id);
 		if (user) {
 			await user.changePassword(currentPassword, newPassword);
+			req.flash('success', 'Password updated successfully');
 			return res.redirect('/dashboard');
 		} else {
 			let err = new Error('User not found');
@@ -66,6 +70,7 @@ const changePassword = async (req, res) => {
 				break;
 			case 'InvalidSessionError':
 				req.flash('error', 'Your session is invalid. Please log in again');
+				return res.redirect('/login');
 				break;
 			default:
 				req.flash('error', 'Something went wrong');

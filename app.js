@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const mongoSanitize = require('express-mongo-sanitize');
 // const LocalStrategy = require('passport-local').Strategy;
 
 const userRoutes = require('./routes/users');
@@ -14,7 +15,8 @@ const habitRoutes = require('./routes/habits');
 const User = require('./models/user');
 
 const habitsController = require('./controllers/habits');
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn } = require('./utils/middleware');
+const ExpressError = require('./utils/ExpressError');
 
 mongoose.connect(
 	'mongodb://localhost:27017/lsht_app', //specifies URL, port and database name
@@ -33,6 +35,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(mongoSanitize());
 
 const sessionConfig = {
 	name: 'lsht',
@@ -76,9 +80,25 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', isLoggedIn, habitsController.renderDashboard);
+app.get('/error', (req, res) => {
+	res.render('error');
+});
 
 app.use('/', userRoutes);
 app.use('/habits', habitRoutes);
+
+// Catch All Route
+app.all('*', (req, res, next) => {
+	res.render('404');
+})
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+	const { statusCode = 500 } = err;
+	if (!err.message) err.message = 'Something went wrong!';
+ 	// res.send("Something went wrong!!");
+	res.status(statusCode).render('error', { err });
+})
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => {

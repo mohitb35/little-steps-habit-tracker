@@ -1,0 +1,45 @@
+<%- include('./partials/head', {title: "Error!"}) %>
+<body class="preload error-page">
+	<div class="container container-large">
+		<%- include('./partials/titlebar', { page: 'error', title: 'Oops! Something went wrong!', backUrl: '' }); %>
+		<main class="main-contents">
+			<article class="error-card">
+				<div class="card-contents">
+					<h2 class="error-title">Error - <%= err.message %></h2>
+					<% if(process.env.NODE_ENV !== "production") { %>
+					<div class="error-info">
+						<%= err.stack %> 
+					</div>
+					<% } else { %>
+						<div class="error-info">Something seems to have gone wrong!</div>
+						<div class="error-info">Try logging out of the application and logging in again.</div>	 
+						<div class="error-info">If the error persists, please get in touch with us at <a href = "mailto: support@littlesteps.com">support@littlesteps.com</a></div>	 
+					<% } %>
+				</div>
+				<% if (currentUser) { %>
+					<button 
+						class="large-button" id="logout-button"
+						data-target="logout-modal" 
+					>Logout</button>
+				<% } %>
+			</article>
+		</main>
+	</div>
+	<div id="logout-modal" class="modal hidden">
+		<div class="modal-wrapper">
+			<button class="modal-close-button" data-target="logout-modal"><img src="/media/cross-icon.svg" alt="Close button"></button>
+			<div class="modal-contents">
+				<h4 class="modal-title">Logout</h4>
+				<p class="modal-text">Are you sure you want to log out?</p>
+				<div class="modal-actions">
+					<form action="/logout" method="POST">
+						<button class="small-button action-desired">Yes</button>
+					</form>
+					<button class="small-button modal-close-button" data-target="logout-modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%- include('./partials/footer'); %>
+</body>
+</html>

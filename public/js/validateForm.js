@@ -135,7 +135,7 @@ function validateRegister(event) {
 }
 
 /**
- * Validates the add habit form
+ * Validates the add/edit habit form
  * @param {Event} event - form submit event
  * @listens SubmitEvent
  */
@@ -146,7 +146,7 @@ function validateRegister(event) {
 		const { title, frequency, purpose } = this.elements;
 
 		// Validate title
-		const titleError = isFilled(title.value, "Please enter a habit name");
+		const titleError = isFilled(title.value, "Please enter a habit name", 200);
 		const titleFeedback = title.parentNode.querySelector('.feedback');
 		handleError(title, titleFeedback, titleError);
 		
@@ -155,7 +155,12 @@ function validateRegister(event) {
 		const frequencyFeedback = frequency.parentNode.querySelector('.feedback');
 		handleError(frequency, frequencyFeedback, frequencyError);
 
-		if (titleError || frequencyError ) {
+		// Check purpose length
+		const purposeError = isPurposeInvalid(purpose.value);
+		const purposeFeedback = purpose.parentNode.querySelector('.feedback');
+		handleError(purpose, purposeFeedback, purposeError);
+
+		if (titleError || frequencyError || purposeError ) {
 			event.preventDefault();
 		}
 	} catch (error)	{
@@ -179,6 +184,10 @@ function isEmailInvalid (emailText) {
 
 	if (!emailRegex.test(emailText)) {
 		return "Hmmm...the email address entered seems invalid.";
+	}
+
+	if (emailText.length > 320) {
+		return "That's too long for an email address. Did your keyboard get stuck?";
 	}
 
 	return false;
@@ -223,6 +232,10 @@ function isNameInvalid (nameText) {
 		return "Please enter your name."; 
 	}
 
+	if (nameText.length > 250) {
+		return "That name seems too long. Did your keyboard get stuck?"
+	}
+
 	return false;
 }
 
@@ -243,13 +256,31 @@ function isPasswordConfirmed (passwordText, confirmPasswordText) {
  * Checks if mandatory field is provided. Returns: false (if provided), error message (if invalid)
  * @param {string} fieldValue String value of field
  * @param {string} [errorMessage = "Please provide a value"] String value of error message
+ * @param {number} [maxLength = undefined] max field length
 */
-function isFilled (fieldValue, errorMessage = "Please provide a value") {
+function isFilled (fieldValue, errorMessage = "Please provide a value", maxLength = undefined) {
 	if (fieldValue === "" || fieldValue === null) {
 		return errorMessage; 
 	}
 
+	if (maxLength && fieldValue.length > maxLength) {
+		return "That's too long. Did your keyboard get stuck?"
+	}
+
 	return false;
+}
+
+/**
+ * Checks if purpose is valid. Returns: false (if provided), error message (if invalid)
+ * @param {string} purposeText String value of purpose
+ */
+
+function isPurposeInvalid (purposeText) {
+	if (purposeText.length > 1000) {
+		return "A short purpose is an effective purpose. Keep this within 1000 characters";
+	}
+
+	return false; 
 }
 
 /**

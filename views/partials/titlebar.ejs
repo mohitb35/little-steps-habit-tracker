@@ -1,39 +1,49 @@
 <nav class="titlebar">
 	<div class="titlebar-left-container">
+		<% if (backUrl) { %>
 		<a href="<%= backUrl %>"
 			><img src="/media/back-arrow.svg" alt="Back" title="Back"
 		/></a>
-		<% if (title) { %>
+		<% } %> <% if (title) { %>
 		<h1 class="title"><%= title %></h1>
 		<% } %>
 	</div>
 	<% if (page === 'view-habit') { %>
 	<div class="titlebar-right-container">
-		<a class="round-button" href="#"
-			><img
-				src="/media/round-button-track-habit.svg"
-				alt="Track Habit"
-				title="Track Habit"
-		/></a>
+		<img
+			src="/media/track-habit-hint.svg"
+			class="track-habit-hint"
+			alt-text="hint - track habits with the button to the right"
+		/>
+		<button 
+			class="tracking-button round-button" 
+			data-target="tracking-modal" 
+			data-title="<%= habit.title %>" 
+			data-habit-id="<%= habit.id %>"
+			data-habit-due-date="<%= habit.due %>"
+			<%= habit.is_tracking_enabled ? "" : "disabled" %>
+		><img
+			src="/media/round-button-track-habit.svg"
+			alt="Track Habit"
+			title="Track Habit"
+		/></button>
 		<a class="round-button" href="/habits/<%= habit.id %>/edit"
 			><img
 				src="/media/round-button-edit-habit.svg"
 				alt="Edit Habit"
 				title="Edit Habit"
 		/></a>
-		<form
-			id="delete-habit-form"
-			action="/habits/<%= habit.id %>?_method=DELETE"
-			method="POST"
+		<button
+			class="round-button"
+			id="delete-habit-button"
+			data-target="delete-habit-modal"
 		>
-			<button class="round-button" type="submit">
-				<img
-					src="/media/round-button-delete-habit.svg"
-					alt="Delete Habit"
-					title="Delete Habit"
-				/>
-			</button>
-		</form>
+			<img
+				src="/media/round-button-delete-habit.svg"
+				alt="Delete Habit"
+				title="Delete Habit"
+			/>
+		</button>
 	</div>
 	<% } %>
 </nav>

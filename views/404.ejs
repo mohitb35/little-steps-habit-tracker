@@ -1,0 +1,27 @@
+<%- include('./partials/head', {title: "Page not found!"}) %>
+<body class="preload error-page">
+	<div class="container container-large">
+		<%- include('./partials/titlebar', { page: '404', title: '', backUrl: '' }); %>
+		<main class="main-contents">
+			<article class="error-card">
+				<div class="card-contents">
+					<h2 class="error-title">Page not found</h2>
+					<div class="error-info">The page you're trying to reach doesn't exist right now.</div>
+					<div class="error-info">That's OK. It probably doesn't matter (anymore, at least).</div>
+					<div class="error-info">Focus on what's important.</div>
+				</div>
+				<% if (currentUser) { %>
+					<a href="/dashboard" 
+						class="large-button"
+					>Go to dashboard</a>
+				<% } else { %>
+					<a href="/login" 
+						class="large-button"
+					>Login</a>
+				<% } %>
+			</article>
+		</main>
+	</div>
+	<%- include('./partials/footer'); %>
+</body>
+</html>

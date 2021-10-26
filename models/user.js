@@ -25,6 +25,9 @@ const userSchema = new Schema(
 				}, 
 				message: 'Email format seems to be incorrect'
 			}
+		},
+		last_autotracked: {
+			type: Date
 		}
 		// Pending - lastLogin, isLoggedIn
 	},

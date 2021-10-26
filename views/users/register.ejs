@@ -23,12 +23,14 @@
 								name="user[name]"
 								autofocus
 								required
+								maxlength="250"
+								autocomplete="name"
 							/>
 							<div class="feedback"></div>
 						</div>
 						<div class="form-field required">
 							<label for="email">Email</label>
-							<input type="text" id="email" name="user[email]" required />
+							<input type="text" id="email" name="user[email]" required maxlength="320" autocomplete="username"/>
 							<div class="feedback"></div>
 						</div>
 						<div class="form-field required">
@@ -37,6 +39,7 @@
 								type="password"
 								id="password"
 								name="user[password]"
+								autocomplete="new-password"
 								required
 							/>
 							<div class="feedback"></div>
@@ -48,6 +51,7 @@
 								id="confirm-password"
 								name="confirm-password"
 								required
+								autocomplete="off"
 							/>
 							<div class="feedback"></div>
 						</div>

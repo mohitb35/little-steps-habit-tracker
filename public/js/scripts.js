@@ -3,6 +3,7 @@ const flashContainers = document.querySelectorAll('.flash');
 const modalCloseButtons = document.querySelectorAll('.modal-close-button');
 const logoutButton = document.getElementById('logout-button');
 const trackingButtons = document.querySelectorAll('.tracking-button');
+const deleteButton = document.getElementById('delete-habit-button');
 
 window.addEventListener('load', function () {
 	body.classList.remove('preload');
@@ -36,8 +37,12 @@ for (let trackingButton of trackingButtons) {
 	trackingButton.addEventListener('click', showModal);
 }
 
+if (deleteButton) {
+	deleteButton.addEventListener('click', showModal);
+}
+
 function showModal(event) {
-	const { title, habitId, target } = this.dataset;
+	const { title, habitId, target, habitDueDate } = this.dataset;
 	const targetModal = document.getElementById(target);
 	if (title) {
 		const modalTitle = targetModal.querySelector(".modal-title");
@@ -47,8 +52,17 @@ function showModal(event) {
 		const trackHabitForm = targetModal.querySelector("#track-habit-form");
 		trackHabitForm.action = `/habits/${habitId}/track?_method=PUT`;
 	}
+	if (habitDueDate) {
+		const modalText = targetModal.querySelector(".modal-text");
+		modalText.innerText = `Did you complete this on ${printDate(habitDueDate)}?`;
+	}
 	targetModal.classList.remove("hidden");
 };
+
+function printDate(dateText) {
+	let date = new Date(dateText);
+	return date.toDateString();
+}
 
 
 

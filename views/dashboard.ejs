@@ -1,12 +1,6 @@
 <%- include('partials/head', {title: "Your Dashboard - Little Steps"}); %>
-<body class="preload">	
+<body class="preload dashboard-page">	
 	<div class="container container-large dashboard">
-		<% if (!currentUser) { %>
-		<div>
-			<a href="/register">Register</a>
-			<a href="/login">Login</a>
-		</div>
-		<% } else { %>
 		<section class="banner">
 			<div class="banner-quote">
 				<blockquote>
@@ -84,6 +78,7 @@
 					data-target="tracking-modal" 
 					data-title="<%= habit.title %>" 
 					data-habit-id="<%= habit.id %>"
+					data-habit-due-date="<%= habit.due %>"
 					<%= habit.is_tracking_enabled ? "" : "disabled" %>
 				>Track</button>
 			</article>
@@ -106,6 +101,6 @@
 		</div>
 	</div>
 	<%- include('partials/trackingModal'); %>
-	<% } %> <%- include('partials/footer'); %>
+	<%- include('partials/footer'); %>
 </body>
 </html>

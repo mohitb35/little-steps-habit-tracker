@@ -3,11 +3,11 @@ const router = express.Router();
 const passport = require('passport');
 
 const usersController = require('../controllers/users');
-const { isLoggedIn, isNotLoggedIn } = require('../middleware');
+const { isLoggedIn, isNotLoggedIn, validateUserInfo } = require('../utils/middleware');
 
 router.route('/register')
 	.get( isNotLoggedIn, usersController.renderRegisterForm)
-	.post( usersController.createUser );
+	.post( validateUserInfo, usersController.createUser );
 
 router.route('/login')
 	.get( isNotLoggedIn, usersController.renderLoginForm )

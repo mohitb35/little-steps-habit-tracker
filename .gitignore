@@ -8,3 +8,4 @@ node_modules/
 public/js/snippets.js
 public/css/styles copy.css
 .DS_Store
+seedHabitLogs.js
