@@ -94,6 +94,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
+	console.log("ENV:", process.env);
 	// console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
 	res.locals.success = req.flash('success');
