@@ -16,12 +16,11 @@ async function autoTrackHabit (habit) {
 	let cutoffDate = new Date(currentDate);
 	
 	cutoffDate.setDate(currentDate.getDate() - 2);
-	// let dueDate = habit.due;
-	console.log("Cutoff:", cutoffDate);
+	// console.log("Cutoff:", cutoffDate);
 
 	// While the due date is before cutoff date
 	while (cutoffDate > habit.due) {
-		console.log('updating missed due dates');
+		// console.log('updating missed due dates');
 		// 1. update habit log entry for due date -> update status to missed
 		let updatedLog = await HabitLog.findByIdAndUpdate( 
 			habit.last_log,
@@ -29,11 +28,11 @@ async function autoTrackHabit (habit) {
 			{ new: true, useFindAndModify: false, runValidators: true }
 		);
 		
-		console.log("Updated log:", updatedLog);
+		// console.log("Updated log:", updatedLog);
 
 		// 2. update due to next due and interval next_due
 		habit.due = habit.next_due;
-		habit.next_due = getNextDate(habit.due, 1);
+		habit.next_due = getNextDate(habit.due, habit.interval);
 
 		// 3. Add a new entry in habit log with the new due date
 		let newLog = new HabitLog({
@@ -43,8 +42,8 @@ async function autoTrackHabit (habit) {
 		});
 
 		habit.last_log = newLog.id;
-		console.log("new log:", newLog);
-		console.log("Updated habit:", habit);
+		// console.log("new log:", newLog);
+		// console.log("Updated habit:", habit);
 
 		// 4. Save changes to DB
 		await habit.save();

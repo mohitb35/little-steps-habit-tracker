@@ -26,8 +26,7 @@ const ExpressError = require('./utils/ExpressError');
 const dbUrl = process.env.DB_URL;//database URL (mongo atlas cloud)
 
 //specifies URL, port and database name (local)
-/*const dbUrl = 'mongodb://localhost:27017/lsht_app';*/
-
+/* const dbUrl = 'mongodb://localhost:27017/lsht_app'; */
 
 mongoose.connect(
 	dbUrl,
@@ -94,11 +93,9 @@ passport.deserializeUser(User.deserializeUser());
 app.use(methodOverride('_method'));
 
 app.use((req, res, next) => {
-	// console.log(new Date().toLocaleString());
 	res.locals.error = req.flash('error');
 	res.locals.success = req.flash('success');
 	res.locals.currentUser = req.user;
-	// console.log(res.locals);
 	next();
 })
 
@@ -126,7 +123,6 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
 	const { statusCode = 500 } = err;
 	if (!err.message) err.message = 'Something went wrong!';
- 	// res.send("Something went wrong!!");
 	res.status(statusCode).render('error', { err });
 })
 
@@ -139,4 +135,3 @@ app.listen(port, () => {
 	}
 	
 })
-

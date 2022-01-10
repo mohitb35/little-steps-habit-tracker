@@ -12,7 +12,7 @@ const userSchema = Joi.object({
 
 const habitSchema = Joi.object({
 	title: Joi.string().min(1).max(200).required().label('Title'),
-	frequency: Joi.string().valid('daily').required().label('Frequency'),
+	frequency: Joi.string().valid('daily', 'weekly', 'monthly').required().label('Frequency'),
 	purpose: Joi.string().allow("").max(1000).label('Purpose')
 })
 

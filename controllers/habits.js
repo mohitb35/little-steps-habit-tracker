@@ -11,7 +11,7 @@ const {
 	getNextDate
 } = require('../utils/habitUtils');
 
-const frequencies = ['daily']; 
+const frequencies = ['daily', 'weekly', 'monthly']; 
 
 const renderDashboard = async (req, res, next) => {
 	try {
@@ -77,7 +77,7 @@ const createHabit = async (req, res) => {
 		const habit = new Habit(req.body.habit);
 		habit.creator = req.user.id;
 		habit.due = new Date();
-		habit.next_due = getNextDate(habit.due, 1);
+		habit.next_due = getNextDate(habit.due, habit.interval);
 		const habitLog = new HabitLog({
 			habit: habit.id,
 			date: habit.due,
@@ -116,6 +116,8 @@ const updateHabit = async (req, res) => {
 			habit, 
 			{ new: true, useFindAndModify: false, runValidators: true }
 		);
+		updatedHabit.next_due = getNextDate(updatedHabit.due, updatedHabit.interval);
+		await updatedHabit.save();
 		req.flash('success', 'Habit updated successfully');
 		res.redirect(`/habits/${updatedHabit.id}`);
 	} catch (err) {
@@ -151,7 +153,7 @@ const trackHabit = async (req, res) => {
 		// Update last_completed, set next due date, and update next_due, creating a new habit_log entry, and updating the last_log for the habit
 		habit.last_completed = habit.due;
 		habit.due = habit.next_due;
-		habit.next_due = getNextDate(habit.due, 1);
+		habit.next_due = getNextDate(habit.due, habit.interval);
 		
 		let newLog = new HabitLog({
 			habit: habit.id,

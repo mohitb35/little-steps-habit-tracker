@@ -16,7 +16,7 @@ const habitSchema = new Schema (
 		frequency: {
 			type: String,
 			required: [true, 'Habit frequency required'],
-			enum: ['daily']
+			enum: ['daily', 'weekly', 'monthly']
 		},
 		purpose: {
 			type: String
@@ -52,6 +52,17 @@ const habitSchema = new Schema (
 	},
 	habitOptions
 );
+
+habitSchema.virtual('interval').get(function() {
+	switch (this.frequency) {
+		case 'daily':
+			return 1;
+		case 'weekly':
+			return 7;
+		case 'monthly':
+			return 28;
+	}
+})
 
 habitSchema.virtual('prettyStartDate').get(function() {
 	let date = this.createdAt;
@@ -107,8 +118,6 @@ habitSchema.virtual('lastCompletedText').get(function() {
 });
 
 habitSchema.post('findOneAndDelete', async (deletedHabit) => {
-	console.log("Post");
-	console.log(deletedHabit);
 	if (deletedHabit) {
 		await HabitLog.deleteMany({
 			habit: deletedHabit
